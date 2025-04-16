@@ -6,6 +6,7 @@ body {
     background-repeat: no-repeat; /* Prevent repeating */
     background-attachment: fixed; /* Keep the background fixed */
     background-position: center; 
+    font-size: 18px;
 }
 
 h1 {
