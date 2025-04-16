@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: "Futura", sans-serif;
     background-image: url('images/background.png'); 
     background-size: cover; 
     background-repeat: no-repeat; /* Prevent repeating */
@@ -8,11 +8,23 @@ body {
     background-position: center; 
 }
 
+h1 {
+    font-family: "Copperplate", serif; 
+    font-size: 80px;
+}
+
+h3 {
+    font-family: "Copperplate", serif; 
+    font-size: 30px;
+    color: rgb(231, 61, 89);
+}
+
 .content {
     position: relative;
     z-index: 1; /* Keep text above background */
     padding: 20px;
     color: white; 
+    margin: 40px;
 }
 
 .video-container {
