@@ -19,9 +19,10 @@ body {
     display: flex;
     justify-content: center; 
     margin: 20px 0; 
+    height: 500px;
 }
 
-iframe {
-    max-width: 100%; 
-    height: auto; 
+.video-container iframe {
+    max-width: 100%;
+    height: auto;
 }
