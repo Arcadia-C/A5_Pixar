@@ -1,16 +1,27 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image: url('images/background.png'); /* Replace with your image path */
-    background-size: cover; /* Cover the entire viewport */
+    background-image: url('images/background.png'); 
+    background-size: cover; 
     background-repeat: no-repeat; /* Prevent repeating */
     background-attachment: fixed; /* Keep the background fixed */
-    background-position: center; /* Center the background */
+    background-position: center; 
 }
 
 .content {
     position: relative;
-    z-index: 1; /* Ensure content is above the background */
+    z-index: 1; /* Keep text above background */
     padding: 20px;
-    color: white; /* Change text color for better visibility */
+    color: white; 
+}
+
+.video-container {
+    display: flex;
+    justify-content: center; 
+    margin: 20px 0; 
+}
+
+iframe {
+    max-width: 100%; 
+    height: auto; 
 }
