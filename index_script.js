@@ -55,20 +55,21 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
     .attr("fill", "steelblue")
     .on("mouseover", function (event, d) {
       d3.select(this).transition().duration(200).attr("fill", "#ff6f61");
-      tooltip.transition().duration(200).style("opacity", 0.9);
+      tooltip.transition().duration(200).style("opacity", 0.95);
+
+      const rect = this.getBoundingClientRect();
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+
       tooltip
         .html(
           `<strong>${d.film}</strong><br>
             Released: ${d.release_date.getFullYear()}<br>
             Revenue: $${d.box_office_worldwide.toLocaleString()}`
         )
-        .style("left", event.pageX + 10 + "px")
-        .style("top", event.pageY - 40 + "px");
-    })
-    .on("mousemove", function (event) {
-      tooltip
-        .style("left", event.pageX + 10 + "px")
-        .style("top", event.pageY - 40 + "px");
+        .style("left", rect.x + rect.width / 2 + "px")
+        .style("top", rect.y + scrollTop - 60 + "px")
+        .style("transform", "translateX(-50%)");
     })
     .on("mouseout", function () {
       d3.select(this).transition().duration(200).attr("fill", "steelblue");
