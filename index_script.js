@@ -9,7 +9,7 @@ const height = 400;
 const margin = { top: 20, right: 20, bottom: 30, left: 40 };
 
 // Create the SVG container
-const svg = d3.select("body")
+const svg = d3.select("#visualization")
     .append("svg")
     .attr("width", width)
     .attr("height", height);
