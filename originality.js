@@ -1,7 +1,27 @@
 d3.csv("datasets/box_office_clean.csv").then((data) => {
+  const knownSequels = [
+    "Finding Dory",
+    "Lightyear",
+    "Cars 2",
+    "Cars 3",
+    "Toy Story 2",
+    "Toy Story 3",
+    "Toy Story 4",
+    "Monsters University",
+    "Incredibles 2",
+  ];
+
   data.forEach((d) => {
     d.release_date = new Date(d.release_date);
-    d.originality = /\d/.test(d.film) ? -1 : 1; // check for number in title
+
+    // Lowercase comparison for flexibility
+    const isInSequelList = knownSequels.some((title) =>
+      d.film.toLowerCase().includes(title.toLowerCase())
+    );
+
+    const hasNumber = /\d/.test(d.film);
+
+    d.originality = hasNumber || isInSequelList ? -1 : 1;
   });
 
   data.sort((a, b) => a.release_date - b.release_date);
