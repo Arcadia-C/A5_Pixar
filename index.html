@@ -30,14 +30,14 @@
         background-color: rgba(255, 255, 255, 0.25);
       }
 
-      #visualization-wrapper {
+      .viz-wrapper {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.8s ease;
       }
 
-      #visualization-wrapper.revealed {
-        max-height: 800px; /* Enough to show graph */
+      .viz-wrapper.revealed {
+        max-height: 800px; /* Adjust based on graph size */
       }
     </style>
   </head>
@@ -126,19 +126,28 @@
         visualizations as "baseline" datapoints.
       </p>
       <div class="reveal-container">
-        <div class="hover-bar" id="revealButton">Box Office</div>
-        <div id="visualization-wrapper">
+        <!-- Box Office Section -->
+        <div class="hover-bar" id="revealBoxOffice">Box Office</div>
+        <div id="visualization-wrapper-boxoffice" class="viz-wrapper">
           <div id="visualization"></div>
+        </div>
+
+        <!-- Originality Section -->
+        <div class="hover-bar" id="revealOriginality">Originality</div>
+        <div id="visualization-wrapper-originality" class="viz-wrapper">
+          <div id="originality"></div>
         </div>
       </div>
 
       <div style="height: 2000px"></div>
     </div>
 
+    <!-- External Scripts -->
     <script src="index_script.js"></script>
+    <script src="originality.js"></script>
 
     <script>
-      // Animate on scroll
+      // Fade-in animation
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -155,12 +164,22 @@
         observer.observe(el);
       });
 
-      // Reveal or collapse on click
-      const hoverBar = document.getElementById("revealButton");
-      const vizWrapper = document.getElementById("visualization-wrapper");
+      // Toggle chart reveal
+      const boxOfficeBar = document.getElementById("revealBoxOffice");
+      const boxOfficeWrapper = document.getElementById(
+        "visualization-wrapper-boxoffice"
+      );
+      const originalityBar = document.getElementById("revealOriginality");
+      const originalityWrapper = document.getElementById(
+        "visualization-wrapper-originality"
+      );
 
-      hoverBar.addEventListener("click", () => {
-        vizWrapper.classList.toggle("revealed");
+      boxOfficeBar.addEventListener("click", () => {
+        boxOfficeWrapper.classList.toggle("revealed");
+      });
+
+      originalityBar.addEventListener("click", () => {
+        originalityWrapper.classList.toggle("revealed");
       });
     </script>
   </body>
