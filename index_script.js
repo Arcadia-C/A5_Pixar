@@ -34,13 +34,19 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
   const tooltip = d3
     .select("body")
     .append("div")
+    .attr("class", "tooltip")
     .style("position", "absolute")
-    .style("padding", "6px 10px")
-    .style("background", "#222")
-    .style("color", "#fff")
-    .style("border-radius", "6px")
+    .style("background", "rgba(255, 255, 255, 0.95)")
+    .style("color", "#222")
+    .style("border", "1px solid #ccc")
+    .style("border-radius", "8px")
+    .style("padding", "12px")
+    .style("font-family", "Futura, sans-serif")
+    .style("font-size", "14px")
+    .style("box-shadow", "0 4px 12px rgba(0, 0, 0, 0.15)")
     .style("pointer-events", "none")
-    .style("opacity", 0);
+    .style("opacity", 0)
+    .style("z-index", 10000); // Bring tooltip on top
 
   // Bars
   svg
@@ -53,27 +59,25 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
     .attr("height", (d) => y(0) - y(d.box_office_worldwide))
     .attr("width", x.bandwidth())
     .attr("fill", "steelblue")
-    .on("mouseover", function (event, d) {
-      d3.select(this).transition().duration(200).attr("fill", "#ff6f61");
-      tooltip.transition().duration(200).style("opacity", 0.95);
+    .on("mouseenter", function (event, d) {
+      d3.select(this).attr("fill", "#ff6f61");
 
-      const rect = this.getBoundingClientRect();
-      const scrollTop =
-        window.pageYOffset || document.documentElement.scrollTop;
-
-      tooltip
-        .html(
-          `<strong>${d.film}</strong><br>
-            Released: ${d.release_date.getFullYear()}<br>
-            Revenue: $${d.box_office_worldwide.toLocaleString()}`
-        )
-        .style("left", rect.x + rect.width / 2 + "px")
-        .style("top", rect.y + scrollTop - 60 + "px")
-        .style("transform", "translateX(-50%)");
+      tooltip.style("opacity", 1).html(`
+          <table>
+            <tr><th style="text-align:left;" colspan="2">${d.film}</th></tr>
+            <tr><td><strong>Released:</strong></td><td>${d.release_date.getFullYear()}</td></tr>
+            <tr><td><strong>Revenue:</strong></td><td>$${d.box_office_worldwide.toLocaleString()}</td></tr>
+          </table>
+        `);
     })
-    .on("mouseout", function () {
-      d3.select(this).transition().duration(200).attr("fill", "steelblue");
-      tooltip.transition().duration(200).style("opacity", 0);
+    .on("mousemove", function (event) {
+      tooltip
+        .style("left", event.pageX + 10 + "px")
+        .style("top", event.pageY - 50 + "px");
+    })
+    .on("mouseleave", function () {
+      d3.select(this).attr("fill", "steelblue");
+      tooltip.style("opacity", 0);
     });
 
   // X Axis
