@@ -1,56 +1,3 @@
-// // import * as d3 from "d3";
-
-// // Sample data
-// const data = [4, 8, 15, 16, 23, 42];
-
-// // Set up the SVG dimensions
-// const width = 600;
-// const height = 400;
-// const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-
-// // Create the SVG container
-// const svg = d3
-//   .select("#visualization")
-//   .append("svg")
-//   .attr("width", width)
-//   .attr("height", height);
-
-// // Create scales
-// const x = d3
-//   .scaleBand()
-//   .range([margin.left, width - margin.right])
-//   .padding(0.1);
-
-// const y = d3.scaleLinear().range([height - margin.bottom, margin.top]);
-
-// // Set the domains
-// x.domain(d3.range(data.length));
-// y.domain([0, d3.max(data)]);
-
-// // Add the bars
-// svg
-//   .selectAll("rect")
-//   .data(data)
-//   .enter()
-//   .append("rect")
-//   .attr("x", (d, i) => x(i))
-//   .attr("y", (d) => y(d))
-//   .attr("width", x.bandwidth())
-//   .attr("height", (d) => height - margin.bottom - y(d))
-//   .attr("fill", "steelblue");
-
-// // Add x-axis
-// svg
-//   .append("g")
-//   .attr("transform", `translate(0,${height - margin.bottom})`)
-//   .call(d3.axisBottom(x));
-
-// // Add y-axis
-// svg
-//   .append("g")
-//   .attr("transform", `translate(${margin.left},0)`)
-//   .call(d3.axisLeft(y));
-// Load the CSV file and create the visualization
 d3.csv("datasets/box_office_clean.csv").then((data) => {
   // Parse numeric and date values
   data.forEach((d) => {
@@ -61,7 +8,7 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
   // Sort by release date
   data.sort((a, b) => a.release_date - b.release_date);
 
-  // SVG setup
+  // ==== First Chart: Bar Graph ====
   const width = 900;
   const height = 500;
   const margin = { top: 40, right: 30, bottom: 120, left: 80 };
@@ -72,21 +19,18 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
     .attr("width", width)
     .attr("height", height);
 
-  // X scale: movie names
   const x = d3
     .scaleBand()
     .domain(data.map((d) => d.film))
     .range([margin.left, width - margin.right])
     .padding(0.2);
 
-  // Y scale: box office revenue
   const y = d3
     .scaleLinear()
     .domain([0, d3.max(data, (d) => d.box_office_worldwide)])
     .nice()
     .range([height - margin.bottom, margin.top]);
 
-  // Bars
   svg
     .selectAll("rect")
     .data(data)
@@ -98,7 +42,6 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
     .attr("width", x.bandwidth())
     .attr("fill", "steelblue");
 
-  // X Axis
   svg
     .append("g")
     .attr("transform", `translate(0,${height - margin.bottom})`)
@@ -107,7 +50,6 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
     .attr("transform", "rotate(-45)")
     .style("text-anchor", "end");
 
-  // Y Axis
   svg
     .append("g")
     .attr("transform", `translate(${margin.left},0)`)
@@ -117,7 +59,6 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
         .tickFormat((d) => (d >= 1e9 ? `$${d / 1e9}B` : `$${d / 1e6}M`))
     );
 
-  // Title
   svg
     .append("text")
     .attr("x", width / 2)
@@ -125,4 +66,93 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
     .attr("text-anchor", "middle")
     .attr("font-size", "20px")
     .text("Worldwide Box Office of Pixar Movies");
+
+  // ==== Second Chart: Random Circles with Tooltip ====
+  const circleChartWidth = 900;
+  const circleChartHeight = 400;
+
+  const circleSvg = d3
+    .select("#visualization")
+    .append("svg")
+    .attr("width", circleChartWidth)
+    .attr("height", circleChartHeight)
+    .style("margin-top", "100px")
+
+  const tooltip = d3.select("#tooltip");
+
+  circleSvg
+    .selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", () => Math.random() * circleChartWidth)
+    .attr("cy", () => Math.random() * circleChartHeight)
+    .attr("r", 10)
+    .attr("fill", () => {
+      // Generate random RGB color
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      return `rgb(${r},${g},${b})`;
+    })
+    .attr("opacity", 0.7)
+    .attr("stroke", "white")
+    .attr("stroke-width", 1)
+    .on("mouseover", (event, d) => {
+      tooltip
+        .style("opacity", 1)
+        .html(`<strong>${d.film}</strong>`);
+    })
+    .on("mousemove", (event) => {
+      tooltip
+        .style("left", `${event.pageX + 10}px`)
+        .style("top", `${event.pageY - 20}px`);
+    })
+    .on("mouseout", () => {
+      tooltip.style("opacity", 0);
+    });
+
+  // Title
+  circleSvg
+    .append("text")
+    .attr("x", circleChartWidth / 2)
+    .attr("y", 30)
+    .attr("text-anchor", "middle")
+    .attr("font-size", "18px")
+    .attr("font-weight", "bold")
+    .attr("fill", "white") // ⬅️ Make the title white
+    .text("Random Circles: One Per Pixar Movie");
+
+circleSvg
+  .selectAll("circle")
+  .data(data)
+  .enter()
+  .append("circle")
+  .attr("cx", () => Math.random() * circleChartWidth)
+  .attr("cy", () => Math.random() * circleChartHeight)
+  .attr("r", 10)
+  .attr("fill", () => {
+    // Generate random RGB color
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r},${g},${b})`;
+  })
+  .attr("opacity", 0.7)
+  .attr("stroke", "white")
+  .attr("stroke-width", 1)
+  .on("mouseover", function(event, d) {
+    tooltip
+      .style("opacity", 1)
+      .html(`<strong>${d.film}</strong>`);
+  })
+  .on("mousemove", function(event) {
+    tooltip
+      .style("left", (event.pageX + 10) + "px")
+      .style("top", (event.pageY - 20) + "px");
+  })
+  .on("mouseout", function() {
+    tooltip.style("opacity", 0);
+  });
+
 });
