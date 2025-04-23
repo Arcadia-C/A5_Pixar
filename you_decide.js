@@ -22,20 +22,6 @@ d3.csv("datasets/pixar_movies.csv").then((data) => {
   data.sort((a, b) => a.year_released - b.year_released);
   renderBarChart(data);
 });
-
-window.closeExpandedBar = function () {
-    d3.selectAll(".expanded-panel").remove();
-    d3.selectAll("rect")
-      .attr("fill", "steelblue")
-      .transition().duration(200)
-      .attr("x", d => x(d.movie))
-      .attr("y", d => y(d.total_worldwide_gross_sales))
-      .attr("width", x.bandwidth())
-      .attr("height", d => y(0) - y(d.total_worldwide_gross_sales));
-  
-    activeBar = null;
-    tooltipLocked = false;
-  };
   
   function renderBarChart(data) {
     const width = 1250;
@@ -75,6 +61,31 @@ window.closeExpandedBar = function () {
       .attr("fill", "steelblue")
       .attr("data-orig-x", (d) => x(d.movie))
       .attr("data-orig-width", x.bandwidth())
+      .on("mouseover", function (event, d) {
+        if (activeBar === this) return;
+      
+        d3.select(this).attr("fill", "tomato");
+      
+        // Bold the x-axis label
+        svg.selectAll(".x-axis text")
+          .filter(function () {
+            return d3.select(this).text() === d.movie;
+          })
+          .style("font-weight", "bold")
+          .style("fill", "#d33");
+      })
+      .on("mouseout", function (event, d) {
+        if (activeBar === this) return;
+      
+        d3.select(this).attr("fill", "steelblue");
+      
+        svg.selectAll(".x-axis text")
+          .filter(function () {
+            return d3.select(this).text() === d.movie;
+          })
+          .style("font-weight", null)
+          .style("fill", null);
+      })
       .on("click", function (event, d) {
         event.stopPropagation();
         d3.select(this).raise();
@@ -133,11 +144,10 @@ window.closeExpandedBar = function () {
                 <div xmlns="http://www.w3.org/1999/xhtml" style="
                   font-size: 12px;
                   padding: 8px;
-                  background: rgba(255, 255, 255, 0);
+                  background: url('${d.image}') center center / cover no-repeat;
                   border-radius: 8px;
                   overflow: auto;
                   height: 100%;
-                  box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
                 ">
                   <div style="display: flex; justify-content: flex-end;">
                     <button
@@ -155,7 +165,7 @@ window.closeExpandedBar = function () {
                     >
                         ✕
                     </button>
-                    </div>
+                  </div>
                   <div style="font-weight: bold; font-size: 14px;">${d.movie}</div>
                   ${d.youtube_trailer_url ? `
                     <div style="margin-top: 10px;">
@@ -170,12 +180,14 @@ window.closeExpandedBar = function () {
                   <div style="margin-top: 8px; font-style: italic;">${d.plot_summary}</div>
                 </div>
               `);
+              
           });
       });
   
     // Axes
     svg.append("g")
       .attr("transform", `translate(0,${height - margin.bottom})`)
+      .attr("class", "x-axis")
       .call(d3.axisBottom(x))
       .selectAll("text")
       .attr("transform", "rotate(-45)")
@@ -189,13 +201,6 @@ window.closeExpandedBar = function () {
         )
       );
   
-    svg.append("text")
-      .attr("x", width / 2)
-      .attr("y", margin.top / 2)
-      .attr("text-anchor", "middle")
-      .attr("font-size", "20px")
-      .text("Worldwide Box Office of Pixar Movies");
-  
     // Click outside = collapse
     document.addEventListener("click", (event) => {
       const panel = document.querySelector(".expanded-panel");
@@ -206,24 +211,26 @@ window.closeExpandedBar = function () {
   
     // Helper: Close & restore
     window.closeExpandedBar = function () {
-      d3.selectAll(".expanded-panel").remove();
-      if (!activeBar) return;
-  
-      const bar = d3.select(activeBar);
-      const d = bar.data()[0];
-      const origX = +bar.attr("data-orig-x");
-      const origWidth = +bar.attr("data-orig-width");
-  
-      bar.transition()
-        .duration(500)
-        .attr("x", origX)
-        .attr("width", origWidth)
-        .attr("y", y(d.total_worldwide_gross_sales))
-        .attr("height", y(0) - y(d.total_worldwide_gross_sales))
-        .attr("fill", "steelblue");
-  
-      activeBar = null;
-      tooltipLocked = false;
-    };
+        d3.selectAll(".expanded-panel").remove();
+      
+        // Reset all bars to their original position, size, and color
+        d3.selectAll("rect")
+          .transition()
+          .duration(500)
+          .attr("x", d => x(d.movie))
+          .attr("width", x.bandwidth())
+          .attr("y", d => y(d.total_worldwide_gross_sales))
+          .attr("height", d => y(0) - y(d.total_worldwide_gross_sales))
+          .attr("fill", "steelblue")
+          .attr("opacity", 1);
+      
+        // Reset all axis label styles
+        d3.selectAll(".x-axis text")
+          .style("font-weight", null)
+          .style("fill", null);
+      
+        activeBar = null;
+        tooltipLocked = false;
+      };
   }
   
