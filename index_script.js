@@ -67,4 +67,5 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
     .attr("font-size", "20px")
     .text("Worldwide Box Office of Pixar Movies");
 
+
 });
