@@ -11,7 +11,7 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
   // ==== First Chart: Bar Graph ====
   const width = 900;
   const height = 500;
-  const margin = { top: 40, right: 30, bottom: 120, left: 80 };
+  const margin = { top: 60, right: 30, bottom: 120, left: 80 };
 
   const svg = d3
     .select("#visualization")
