@@ -10,7 +10,7 @@
       .reveal-container {
         margin-top: 40px;
       }
-
+    
       .hover-bar {
         width: 100%;
         background-color: rgba(255, 255, 255, 0.12);
@@ -25,19 +25,33 @@
         cursor: pointer;
         transition: background-color 0.3s;
       }
-
+    
       .hover-bar:hover {
         background-color: rgba(255, 255, 255, 0.25);
       }
-
+    
       .viz-wrapper {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.8s ease;
       }
-
+    
       .viz-wrapper.revealed {
         max-height: 800px; /* Adjust based on graph size */
+      }
+    
+      #tooltip {
+        position: absolute;
+        background: white;
+        color: black;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        font-size: 12px;
+        pointer-events: none;
+        opacity: 0;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        z-index: 1000;
       }
     </style>
   </head>
@@ -137,11 +151,19 @@
         <div id="visualization-wrapper-originality" class="viz-wrapper">
           <div id="originality"></div>
         </div>
+
+        <!-- You Decide Section -->
+        <div class="hover-bar" id="revealYouDecide">You Decide</div>
+        <div id="visualization-wrapper-youdecide" class="viz-wrapper">
+          <div id="you-decide-viz"></div>
+        </div>
       </div>
 
       <div style="height: 2000px"></div>
     </div>
     <script type="module" src="index_script.js"></script>
+    <script type="module" src="originality.js"></script>
+    <script type="module" src="you_decide.js"></script>
 
     <div id="tooltip" style="
     position: absolute;
@@ -154,6 +176,24 @@
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.15);
     "></div>
-    
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleReveal = (barId, wrapperId) => {
+        const bar = document.getElementById(barId);
+        const wrapper = document.getElementById(wrapperId);
+
+        if (bar && wrapper) {
+          bar.addEventListener("click", () => {
+            wrapper.classList.toggle("revealed");
+          });
+        }
+      };
+
+      toggleReveal("revealBoxOffice", "visualization-wrapper-boxoffice");
+      toggleReveal("revealOriginality", "visualization-wrapper-originality");
+      toggleReveal("revealYouDecide", "visualization-wrapper-youdecide");
+    });
+  </script>
 </body>
 </html>
