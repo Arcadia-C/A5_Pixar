@@ -110,6 +110,18 @@
         this, some of our metrics will have comparison "baselines" to illustrate
         what the "standard" value of the metric was at the time.
       </p>
+      <div class="container">
+        <div class="controls">
+          <label for="window-size">Trend Line Window:</label>
+          <select id="window-size">
+            <option value="3">3 Years</option>
+            <option value="5">5 Years</option>
+            <option value="7">7 Years</option>
+          </select>
+        </div>
+        
+        <div id="chart-container"></div>
+      </div>
       <br><br />
       <h3>Has perception of Pixar films gotten worse?</h3>
       <p>
@@ -153,9 +165,11 @@
 
       <div style="height: 2000px"></div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script type="module" src="index_script.js"></script>
     <script type="module" src="originality.js"></script>
     <script type="module" src="you_decide.js"></script>
+    <script type="module" src="pixar_dreamworks.js"></script>
 
     <div id="tooltip" style="
     position: absolute;
@@ -186,6 +200,21 @@
       toggleReveal("revealOriginality", "visualization-wrapper-originality");
       toggleReveal("revealYouDecide", "visualization-wrapper-youdecide");
     });
+    document.getElementById('window-size').addEventListener('change', function() {
+      const windowSize = parseInt(this.value);
+      document.getElementById('window-size-text').textContent = windowSize;
+      
+      // Clear previous chart
+      document.getElementById('chart-container').innerHTML = '';
+    
+      // Re-load the chart with the new window size
+      // The main JS file will read this value when creating the chart
+      // d3.csv("data/merged_movie_data.csv").then((data) => {
+      //   // The main chart code will run again from pixar-dreamworks-chart.js
+      // }).catch(error => {
+      //   console.error('Error reloading data:', error);
+      // });
+  });
   </script>
 </body>
 </html>
