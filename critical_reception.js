@@ -1,4 +1,4 @@
-d3.csv("datasets/academy.csv").then((data) => {
+d3.csv("datasets/academy_filtered.csv").then((data) => {
 
   data.forEach((d) => {
 
@@ -16,7 +16,7 @@ d3.csv("datasets/academy.csv").then((data) => {
   data.sort((a, b) => a.release_date - b.release_date);
 
   const width = 900;
-  const height = 300;
+  const height = 400;
   const margin = { top: 50, right: 30, bottom: 120, left: 80 };
 
   const svg = d3
@@ -32,8 +32,8 @@ d3.csv("datasets/academy.csv").then((data) => {
     .padding(0.2);
 
   const y = d3
-    .scaleLinear()
-    .domain([-1, 1])
+    .scalePoint()
+    .domain(['Original Screenplay', 'Adapted Screenplay', 'Original Score', 'Original Song', 'Original Screenplay', 'Animated Feature', 'Sound Editing', 'Sound Mixing', 'Best Picture'])
     .range([height - margin.bottom, margin.top]);
 
   const color = (d) => (d.originality === 1 ? "#00c853" : "#e53935");
@@ -60,7 +60,11 @@ d3.csv("datasets/academy.csv").then((data) => {
     .append("image")
     .attr("xlink:href", "images/oscar_icon.png")
     .attr("x", (d) => x(d.film))
-    .attr("y", (d) => y(1))
+    .attr("y", (d) => {
+      console.log(d.award_type);
+      console.log(y(d.award_type));
+      return y(d.award_type)
+    })
     .attr("width", 30)
     .attr("height", 30);
 
@@ -89,7 +93,7 @@ d3.csv("datasets/academy.csv").then((data) => {
         .html(
           `
               <strong>${d.film}</strong><br>
-              Released: ${d.release_date.getFullYear()}<br>
+              Award Type: ${d.award_type}<br>
               ${d.status}
             `
         )
@@ -109,20 +113,20 @@ d3.csv("datasets/academy.csv").then((data) => {
   // X Axis
   svg
     .append("g")
-    .attr("transform", `translate(0,${y(0)})`)
+    .attr("transform", `translate(0,${height - margin.bottom + 25})`)
     .call(d3.axisBottom(x))
     .selectAll("text")
     .attr("transform", "rotate(-45)")
     .style("text-anchor", "end");
 
   // Y Axis
-  svg
-    .append("g")
-    .attr("transform", `translate(${margin.left},0)`)
-    .call(
-      d3
-        .axisLeft(y)
-    );
+  // svg
+  //   .append("g")
+  //   .attr("transform", `translate(${margin.left},0)`)
+  //   .call(
+  //     d3
+  //       .axisLeft(y)
+  //   );
 
   // Title
   svg
