@@ -54,6 +54,50 @@
         z-index: 1000;
         pointer-events: auto;
       }
+    
+    /* Base slider styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 5px;
+      background: #ddd;
+      outline: none;
+    }
+
+    /* Customize the track (for Chrome, Safari) */
+    #boxWeight::-webkit-slider-runnable-track {
+      background: #1f77b4;
+    }
+
+    #openingWeight::-webkit-slider-runnable-track {
+      background: #ff7f0e;
+    }
+
+    #rottenWeight::-webkit-slider-runnable-track {
+      background: #2ca02c;
+    }
+
+    #imdbWeight::-webkit-slider-runnable-track {
+      background: #d62728;
+    }
+
+    #metacriticWeight::-webkit-slider-runnable-track {
+      background: #9467bd;
+    }
+
+    /* Make thumbs stand out a bit */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: white;
+      border: 2px solid #888;
+      border-radius: 50%;
+      cursor: pointer;
+      margin-top: 0 px; /* centers thumb vertically */
+    }
     </style>
   </head>
 
@@ -159,7 +203,10 @@
         <!-- You Decide Section -->
         <div class="hover-bar" id="revealYouDecide">You Decide</div>
         <div id="visualization-wrapper-youdecide" class="viz-wrapper">
-          <div id="you-decide-viz"></div>
+          <div style="display: flex;">
+            <div id="you-decide-viz" style="flex: 3;"></div>
+            <div id="you-decide-controls" style="flex: 1; margin-left: 20px;"></div>
+          </div>
         </div>
       </div>
 
