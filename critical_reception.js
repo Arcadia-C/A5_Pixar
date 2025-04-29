@@ -13,6 +13,28 @@ d3.csv("datasets/academy_filtered.csv").then((data) => {
 
   });
 
+  var yAxis_Domain = ['Original Screenplay', 'Animated Feature', 'Original Score', 'Original Song', 'Sound Editing', 'Sound Mixing', 'Best Picture', 'Adapted Screenplay'];
+  
+  // Detecting changes in buttons means we change the domain values
+  document.querySelectorAll('.awardCategory').forEach(checkbox => {
+    checkbox.addEventListener('change', (event) => {
+        const checkbox_name = event.currentTarget.nextElementSibling.textContent.trim();
+
+        if (event.currentTarget.checked) {
+            if (!yAxis_Domain.includes(checkbox_name)) {
+                yAxis_Domain.push(checkbox_name);
+            }
+        } else {
+            const index = yAxis_Domain.indexOf(checkbox_name);
+            if (index > -1) {
+                yAxis_Domain.splice(index, 1);
+            }
+        }
+        updateChart();
+    });
+  });
+
+
   data.sort((a, b) => a.release_date - b.release_date);
 
   const width = 900;
@@ -25,48 +47,70 @@ d3.csv("datasets/academy_filtered.csv").then((data) => {
     .attr("width", width)
     .attr("height", height);
 
-  const x = d3
+  function get_dimension(status){
+    if (status == 'Nominated'){
+      return 16
+    }
+    else if (status == 'Won'){
+      return 30
+    }
+    else {
+      return 0
+    }
+  }
+  
+  function get_icon(status){
+    if (status == 'Nominated'){
+      return "images/oscar_alt_icon.png"
+    }
+    else{
+      return "images/oscar_icon.png"
+    }
+  }
+  
+  function get_hover_text_color(status){
+    if (status == 'Nominated'){
+      return 'Tomato'
+    }
+    else{
+      return 'MediumSeaGreen'
+    }
+  }
+
+  function updateChart() {
+    const selectedCategories = Array.from(document.querySelectorAll('.awardCategory:checked')).map(cb => {return cb.nextElementSibling.textContent.trim();
+
+    });
+    
+    const filteredData = data.filter(d => selectedCategories.includes(d.award_type));
+
+    const x = d3
     .scaleBand()
-    .domain(data.map((d) => d.film))
+    .domain(filteredData.map((d) => d.film))
     .range([margin.left, width - margin.right])
     .padding(0.2);
 
-  const y = d3
-    .scalePoint()
-    .domain(['Original Screenplay', 'Adapted Screenplay', 'Original Score', 'Original Song', 'Original Screenplay', 'Animated Feature', 'Sound Editing', 'Sound Mixing', 'Best Picture'])
-    .range([height - margin.bottom, margin.top]);
-
-  const color = (d) => (d.originality === 1 ? "#00c853" : "#e53935");
-
-  // Bars
-  // svg
-  //   .selectAll("rect")
-  //   .data(data)
-  //   .enter()
-  //   .append("rect")
-  //   .attr("x", (d) => x(d.film))
-  //   .attr("y", (d) => (d.originality === 1 ? y(1) : y(0)))
-  //   .attr("width", x.bandwidth())
-  //   .attr("height", (d) => Math.abs(y(0) - y(d.originality)))
-  //   .attr("fill", (d) => color(d))
-  //   .attr("opacity", 0.8);
+    const y = d3
+      .scalePoint()
+      .domain(yAxis_Domain)
+      .range([height - margin.bottom, margin.top]);
 
 
-  // Dots with images
-  svg
+    svg.selectAll("*").remove();
+
+    // Dots with images
+    svg
     .selectAll("image")
-    .data(data)
+    .data(filteredData)
     .enter()
     .append("image")
-    .attr("xlink:href", "images/oscar_icon.png")
+    .attr("xlink:href", (d) => get_icon(d.status))
     .attr("x", (d) => x(d.film))
     .attr("y", (d) => {
-      console.log(d.award_type);
-      console.log(y(d.award_type));
       return y(d.award_type)
     })
-    .attr("width", 30)
-    .attr("height", 30);
+    .attr("width", (d) => get_dimension(d.status))
+    .attr("height", (d) => get_dimension(d.status));
 
   // Tooltip
   const tooltip = d3
@@ -94,7 +138,7 @@ d3.csv("datasets/academy_filtered.csv").then((data) => {
           `
               <strong>${d.film}</strong><br>
               Award Type: ${d.award_type}<br>
-              ${d.status}
+              <h4 style="color:${get_hover_text_color(d.status)};">${d.status}</h4>
             `
         )
         .style("left", event.pageX + 10 + "px")
@@ -120,13 +164,25 @@ d3.csv("datasets/academy_filtered.csv").then((data) => {
     .style("text-anchor", "end");
 
   // Y Axis
-  // svg
-  //   .append("g")
-  //   .attr("transform", `translate(${margin.left},0)`)
-  //   .call(
-  //     d3
-  //       .axisLeft(y)
-  //   );
+  svg
+    .append("g")
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(
+      d3
+        .axisLeft(y)
+    )
+    .style("font-size", "8px")
+    .style("text-anchor", "end");
+
+  }
+
+  updateChart();
+
+  
+
+  //const color = (d) => (d.originality === 1 ? "#00c853" : "#e53935");
+
+  
 
   // Title
   svg
@@ -138,4 +194,5 @@ d3.csv("datasets/academy_filtered.csv").then((data) => {
     .attr("font-weight", "bold")
     .attr("fill", "white")
     .text("Pixar's Academy Award Nominations and Wins");
+
 });
