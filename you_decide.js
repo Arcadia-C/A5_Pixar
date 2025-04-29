@@ -46,7 +46,8 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
       "Toy Story 3",
       "Toy Story 4",
       "Monsters University",
-      "Incredibles 2"
+      "Incredibles 2",
+      "Inside Out 2"
     ];
   
     const maxGross = d3.max(moviesData, (d) => parseSales(d.total_worldwide_gross_sales));
