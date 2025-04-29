@@ -14,20 +14,17 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
   data.forEach((d) => {
     d.release_date = new Date(d.release_date);
 
-    // Lowercase comparison for flexibility
     const isInSequelList = knownSequels.some((title) =>
       d.film.toLowerCase().includes(title.toLowerCase())
     );
-
     const hasNumber = /\d/.test(d.film);
-
     d.originality = hasNumber || isInSequelList ? -1 : 1;
   });
 
   data.sort((a, b) => a.release_date - b.release_date);
 
   const width = 900;
-  const height = 300;
+  const height = 250;
   const margin = { top: 50, right: 30, bottom: 120, left: 80 };
 
   const svg = d3
@@ -40,27 +37,12 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
     .scaleBand()
     .domain(data.map((d) => d.film))
     .range([margin.left, width - margin.right])
-    .padding(0.2);
+    .padding(0.5);
 
-  const y = d3
-    .scaleLinear()
-    .domain([-1, 1])
-    .range([height - margin.bottom, margin.top]);
+  const baselineY = height - margin.bottom - 40;
+  const offset = 25;
 
   const color = (d) => (d.originality === 1 ? "#00c853" : "#e53935");
-
-  // Bars
-  svg
-    .selectAll("rect")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("x", (d) => x(d.film))
-    .attr("y", (d) => (d.originality === 1 ? y(1) : y(0)))
-    .attr("width", x.bandwidth())
-    .attr("height", (d) => Math.abs(y(0) - y(d.originality)))
-    .attr("fill", (d) => color(d))
-    .attr("opacity", 0.8);
 
   // Tooltip
   const tooltip = d3
@@ -80,16 +62,23 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
     .style("opacity", 0)
     .style("z-index", 10000);
 
+  // Circles
   svg
-    .selectAll("rect")
+    .selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", (d) => x(d.film) + x.bandwidth() / 2)
+    .attr("cy", (d) => (d.originality === 1 ? baselineY - offset : baselineY))
+    .attr("r", 10)
+    .attr("fill", (d) => color(d))
+    .attr("opacity", 0.9)
     .on("mouseover", function (event, d) {
       tooltip
         .html(
-          `
-              <strong>${d.film}</strong><br>
-              Released: ${d.release_date.getFullYear()}<br>
-              ${d.originality === 1 ? "Original" : "Sequel/Franchise"}
-            `
+          `<strong>${d.film}</strong><br>
+           Released: ${d.release_date.getFullYear()}<br>
+           ${d.originality === 1 ? "Original" : "Sequel/Franchise"}`
         )
         .style("left", event.pageX + 10 + "px")
         .style("top", event.pageY - 40 + "px")
@@ -107,26 +96,11 @@ d3.csv("datasets/box_office_clean.csv").then((data) => {
   // X Axis
   svg
     .append("g")
-    .attr("transform", `translate(0,${y(0)})`)
+    .attr("transform", `translate(0,${baselineY + 20})`)
     .call(d3.axisBottom(x))
     .selectAll("text")
     .attr("transform", "rotate(-45)")
     .style("text-anchor", "end");
-
-  // Y Axis
-  svg
-    .append("g")
-    .attr("transform", `translate(${margin.left},0)`)
-    .call(
-      d3
-        .axisLeft(y)
-        .ticks(3)
-        .tickFormat((d) => {
-          if (d === 1) return "Original";
-          if (d === -1) return "Sequel";
-          return "";
-        })
-    );
 
   // Title
   svg
