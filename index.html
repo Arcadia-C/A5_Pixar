@@ -208,6 +208,28 @@
           <div id="originality"></div>
         </div>
 
+        <!-- Critical Reception Section -->
+        <div class="hover-bar" id="revealCritical">Critical Reception</div>
+        <div id="visualization-wrapper-critical" class="viz-wrapper">
+          <div id="critical"></div>
+          <input type="checkbox" class="awardCategory" id="originalScreenplay" checked>
+          <label for="originalScreenplay">Original Screenplay</label>
+          <input type="checkbox" class="awardCategory" id="animatedFeature" checked>
+          <label for="animatedFeature">Animated Feature</label>
+          <input type="checkbox" class="awardCategory" id="originalScore" checked>
+          <label for="originalScore">Original Score</label>
+          <input type="checkbox" class="awardCategory" id="originalSong" checked>
+          <label for="originalSong">Original Song</label>
+          <input type="checkbox" class="awardCategory" id="soundEditing" checked>
+          <label for="soundEditing">Sound Editing</label>
+          <input type="checkbox" class="awardCategory" id="soundMixing" checked>
+          <label for="soundMixing">Sound Mixing</label>
+          <input type="checkbox" class="awardCategory" id="bestPicture" checked>
+          <label for="bestPicture">Best Picture</label>
+          <input type="checkbox" class="awardCategory" id="adaptedScreenplay" checked>
+          <label for="adaptedScreenplay">Adapted Screenplay</label>
+        </div>
+
         <!-- You Decide Section -->
         <div class="hover-bar" id="revealYouDecide">You Decide</div>
         <div id="visualization-wrapper-youdecide" class="viz-wrapper">
@@ -224,6 +246,7 @@
     <script type="module" src="index_script.js"></script>
     <script type="module" src="originality.js"></script>
     <script type="module" src="you_decide.js"></script>
+    <script type="module" src="critical_reception.js"></script>
     <script type="module" src="pixar_dreamworks.js"></script>
 
     <div id="tooltip" style="
@@ -254,6 +277,7 @@
       toggleReveal("revealBoxOffice", "visualization-wrapper-boxoffice");
       toggleReveal("revealOriginality", "visualization-wrapper-originality");
       toggleReveal("revealYouDecide", "visualization-wrapper-youdecide");
+      toggleReveal("revealCritical", "visualization-wrapper-critical");
     });
     document.getElementById('window-size').addEventListener('change', function() {
       const windowSize = parseInt(this.value);
