@@ -54,12 +54,65 @@
         z-index: 1000;
         pointer-events: auto;
       }
+    
+    /* Base slider styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      border-radius: 5px;
+      background: #ddd;
+      outline: none;
+    }
+
+    /* Customize the track (for Chrome, Safari) */
+    #boxWeight::-webkit-slider-runnable-track {
+      background: green;
+    }
+
+    #openingWeight::-webkit-slider-runnable-track {
+      background: green;
+    }
+
+    #rottenWeight::-webkit-slider-runnable-track {
+      background: red;
+    }
+
+    #imdbWeight::-webkit-slider-runnable-track {
+      background: yellow;
+    }
+
+    #metacriticWeight::-webkit-slider-runnable-track {
+      background: orange;
+    }
+
+    #originalityWeight::-webkit-slider-runnable-track {
+      background: purple;
+    }
+
+    #awardsWeight::-webkit-slider-runnable-track {
+      background: blue;
+    }
+
+    /* Make thumbs stand out a bit */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 12px;
+      height: 12px;
+      background: white;
+      border: 2px solid #888;
+      border-radius: 50%;
+      cursor: pointer;
+      margin-top: 0 px; /* centers thumb vertically */
+    }
     </style>
   </head>
 
   <body>
     <div class="content">
-      <h1>Was WALL-E The Last Great Pixar Film?</h1>
+      <h1>Has Pixar Lost Its Magic?</h1>
+      <h3>Exploring the Evolution of Pixar Films and the Changing Landscape of Animated Storytelling.</h3>
       <p>
         Not so long ago (in 1994 to be exact), on a hot day in California, there
         were four men having lunch at a frequented spot: The Hidden City Cafe.
@@ -102,11 +155,29 @@
         But are they right? Is there a way to tell if there is a decline in
         Pixar films after 2008? Or more generally...
       </p>
-      <br />
-      <h3>Are Pixar Films Getting Worse?</h3>
+      <h3>Is Pixar's perceived decline unique, or part of broader industry trends?</h3>
       <p>
-        To see if this is the case, we first need some metrics for measuring the
-        "quality" of Pixar film. We have devised the following criteria:
+        We could conclude that Pixar films are getting worse, but that doesn't
+        mean much if the general state of cinema is in decline. To mitigate
+        this, some of our metrics will have comparison "baselines" to illustrate
+        what the "standard" value of the metric was at the time.
+      </p>
+      <div class="container">
+        <div class="controls">
+          <label for="window-size">Trend Line Window:</label>
+          <select id="window-size">
+            <option value="3">3 Years</option>
+            <option value="5">5 Years</option>
+            <option value="7">7 Years</option>
+          </select>
+        </div>
+        
+        <div id="chart-container"></div>
+      </div>
+      <br><br />
+      <h3>Has perception of Pixar films gotten worse?</h3>
+      <p>
+        To see if this is the case, we will dive into several metrics:
       </p>
       <ul>
         <li>1. Originality</li>
@@ -124,22 +195,6 @@
         to address:
       </p>
       <br />
-      <h3>
-        Is it just Pixar films that are "getting worse" or cinema as a whole?
-      </h3>
-      <p>
-        We could conclude that Pixar films are getting worse, but that doesn't
-        mean much if the general state of cinema is in decline. To mitigate
-        this, some of our metrics will have comparison "baselines" to illustrate
-        what the "standard" value of the metric was at the time.
-      </p>
-      <p>
-        For instance, consider "audience reception". It may be the case that
-        Pixar reviews are going down, but we're also going to compare it against
-        other movies around the same time to see if they are relatively "worse"
-        than other movies at the time. This will be displayed visually in the
-        visualizations as "baseline" datapoints.
-      </p>
       <div class="reveal-container">
         <!-- Box Office Section -->
         <div class="hover-bar" id="revealBoxOffice">Box Office</div>
@@ -178,16 +233,21 @@
         <!-- You Decide Section -->
         <div class="hover-bar" id="revealYouDecide">You Decide</div>
         <div id="visualization-wrapper-youdecide" class="viz-wrapper">
-          <div id="you-decide-viz"></div>
+          <div style="display: flex;">
+            <div id="you-decide-viz" style="flex: 3;"></div>
+            <div id="you-decide-controls" style="flex: 1; margin-left: 20px;"></div>
+          </div>
         </div>
       </div>
 
       <div style="height: 2000px"></div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script type="module" src="index_script.js"></script>
     <script type="module" src="originality.js"></script>
     <script type="module" src="you_decide.js"></script>
     <script type="module" src="critical_reception.js"></script>
+    <script type="module" src="pixar_dreamworks.js"></script>
 
     <div id="tooltip" style="
     position: absolute;
@@ -219,6 +279,21 @@
       toggleReveal("revealYouDecide", "visualization-wrapper-youdecide");
       toggleReveal("revealCritical", "visualization-wrapper-critical");
     });
+    document.getElementById('window-size').addEventListener('change', function() {
+      const windowSize = parseInt(this.value);
+      document.getElementById('window-size-text').textContent = windowSize;
+      
+      // Clear previous chart
+      document.getElementById('chart-container').innerHTML = '';
+    
+      // Re-load the chart with the new window size
+      // The main JS file will read this value when creating the chart
+      // d3.csv("data/merged_movie_data.csv").then((data) => {
+      //   // The main chart code will run again from pixar-dreamworks-chart.js
+      // }).catch(error => {
+      //   console.error('Error reloading data:', error);
+      // });
+  });
   </script>
 </body>
 </html>
