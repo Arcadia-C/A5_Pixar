@@ -6,11 +6,14 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
   // Color assignment for each metric
   const colors = {
-    boxOffice: d3.color("#1f77b4"),
-    openingWeekend: d3.color("#ff7f0e"),
-    rottenTomatoes: d3.color("#2ca02c"),
-    imdb: d3.color("#d62728"),
-    metacritic: d3.color("#9467bd"),
+    boxOffice: d3.color("green"),
+    openingWeekend: d3.color("green"),
+    rottenTomatoes: d3.color("red"),
+    imdb: d3.color("yellow"),
+    metacritic: d3.color("orange"),
+    originality: d3.color("purple"),
+    awards: d3.color("blue")
+
   };
 
   let weightBoxOffice = 50;
@@ -18,61 +21,88 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
   let weightRotten = 50;
   let weightIMDB = 50;
   let weightMetacritic = 50;
+  let weightOriginality = 50;
+  let weightAwards = 50;
   let svg, x, y, bars;
 
   // Load data
-  d3.csv("datasets/pixar_movies.csv").then((data) => {
-    data.forEach((d) => {
-      // Normalize total gross
-      const match = d.total_worldwide_gross_sales
-        ?.replace(/\$/g, "")
-        .trim()
-        .match(/^([\d.]+)\s*(million|billion)$/i);
-      if (match) {
-        const [_, value, unit] = match;
-        const multiplier = unit.toLowerCase() === "billion" ? 1e9 : 1e6;
-        d.total_worldwide_gross_sales = +value * multiplier;
-      } else {
-        d.total_worldwide_gross_sales = 0;
-      }
+  Promise.all([
+    d3.csv("datasets/pixar_movies.csv"),
+    d3.csv("datasets/academy.csv")
+  ]).then(([moviesData, awardsData]) => {
+    preprocessData(moviesData, awardsData); // clean the data
+    setupSliders(moviesData);                // build the sliders
+    renderBarChart(moviesData);               // draw the chart
+  });
 
-      // Normalize opening weekend
-      const openMatch = d.opening_weekend_box_office_sales
-        ?.replace(/\$/g, "")
-        .trim()
-        .match(/^([\d.]+)\s*(million|billion)$/i);
-      if (openMatch) {
-        const [_, value, unit] = openMatch;
-        const multiplier = unit.toLowerCase() === "billion" ? 1e9 : 1e6;
-        d.opening_weekend_box_office_sales = +value * multiplier;
-      } else {
-        d.opening_weekend_box_office_sales = 0;
-      }
-
-      d.year_released = +d.year_released;
-      d.rotten_tomatoes_rating = +d.rotten_tomatoes_rating?.replace("%", "");
-      d.imdb_rating = +d.imdb_rating * 10; // Rescale to 0–100
-      d.metacritic_rating = +d.metacritic_rating;
-      d.youtube_trailer_url = d.youtube_trailer_url?.trim();
+  // Compute Originality and Awards Scores
+  function preprocessData(moviesData, awardsData) {
+    const knownSequels = [
+      "Finding Dory",
+      "Lightyear",
+      "Cars 2",
+      "Cars 3",
+      "Toy Story 2",
+      "Toy Story 3",
+      "Toy Story 4",
+      "Monsters University",
+      "Incredibles 2"
+    ];
+  
+    const maxGross = d3.max(moviesData, (d) => parseSales(d.total_worldwide_gross_sales));
+    const maxOpening = d3.max(moviesData, (d) => parseSales(d.opening_weekend_box_office_sales));
+  
+    // Precompute award scores
+    const awardPoints = {};
+    awardsData.forEach((d) => {
+      const film = d.film.trim();
+      if (!awardPoints[film]) awardPoints[film] = 0;
+      if (d.status.trim() === "Won") awardPoints[film] += 1;
+      else if (d.status.trim() === "Nominated") awardPoints[film] += 0.5;
+      // Else no change
     });
-
-    const maxGross = d3.max(data, (d) => d.total_worldwide_gross_sales);
-    const maxOpening = d3.max(data, (d) => d.opening_weekend_box_office_sales);
-
-    data.forEach((d) => {
+  
+    const maxAwardScore = d3.max(Object.values(awardPoints));
+  
+    moviesData.forEach((d) => {
+      // Normalize sales
+      d.total_worldwide_gross_sales = parseSales(d.total_worldwide_gross_sales);
+      d.opening_weekend_box_office_sales = parseSales(d.opening_weekend_box_office_sales);
+  
       d.normalized_gross = (d.total_worldwide_gross_sales / maxGross) * 100;
       d.normalized_opening = (d.opening_weekend_box_office_sales / maxOpening) * 100;
+  
+      d.year_released = +d.year_released;
+      d.rotten_tomatoes_rating = +d.rotten_tomatoes_rating?.replace("%", "");
+      d.imdb_rating = +d.imdb_rating * 10;
+      d.metacritic_rating = +d.metacritic_rating;
+      d.youtube_trailer_url = d.youtube_trailer_url?.trim();
+  
+      // Assign originality
+      d.originality_score = knownSequels.includes(d.movie.trim()) ? 25 : 75;
+  
+      // Assign awards score
+      const rawAwardPoints = awardPoints[d.movie.trim()] || 0;
+      d.awards_score = (rawAwardPoints / maxAwardScore) * 100;
     });
-
-    setupSliders(data);
-    renderBarChart(data);
-  });
+  }
+  
+  function parseSales(salesString) {
+    if (!salesString) return 0;
+    const match = salesString.replace(/\$/g, "").trim().match(/^([\d.]+)\s*(million|billion)$/i);
+    if (match) {
+      const [_, value, unit] = match;
+      const multiplier = unit.toLowerCase() === "billion" ? 1e9 : 1e6;
+      return +value * multiplier;
+    }
+    return 0;
+  }
 
   // Compute Magic Score
   function computeMagicScore(d) {
     let scoreSum = 0;
     let weightSum = 0;
-
+  
     if (!isNaN(d.normalized_gross)) {
       scoreSum += weightBoxOffice * d.normalized_gross;
       weightSum += weightBoxOffice;
@@ -93,14 +123,23 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
       scoreSum += weightMetacritic * d.metacritic_rating;
       weightSum += weightMetacritic;
     }
-
+    if (!isNaN(d.originality_score)) {
+      scoreSum += weightOriginality * d.originality_score;
+      weightSum += weightOriginality;
+    }
+    if (!isNaN(d.awards_score)) {
+      scoreSum += weightAwards * d.awards_score;
+      weightSum += weightAwards;
+    }
+  
     if (weightSum === 0) return 0;
     return scoreSum / weightSum;
   }
+  
 
   // Compute blended color
   function computeBarColor() {
-    const totalWeight = weightBoxOffice + weightOpening + weightRotten + weightIMDB + weightMetacritic;
+    const totalWeight = weightBoxOffice + weightOpening + weightRotten + weightIMDB + weightMetacritic + weightOriginality + weightAwards;
     if (totalWeight === 0) return "#ccc";
 
     const wBox = weightBoxOffice / totalWeight;
@@ -108,27 +147,35 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
     const wRotten = weightRotten / totalWeight;
     const wIMDB = weightIMDB / totalWeight;
     const wMetacritic = weightMetacritic / totalWeight;
+    const wOriginality = weightOriginality / totalWeight;
+    const wAwards = weightAwards / totalWeight;
 
     const r = Math.round(
       wBox * colors.boxOffice.r +
       wOpening * colors.openingWeekend.r +
       wRotten * colors.rottenTomatoes.r +
       wIMDB * colors.imdb.r +
-      wMetacritic * colors.metacritic.r
+      wMetacritic * colors.metacritic.r +
+      wOriginality * colors.originality.r +
+      wAwards * colors.awards.r
     );
     const g = Math.round(
       wBox * colors.boxOffice.g +
       wOpening * colors.openingWeekend.g +
       wRotten * colors.rottenTomatoes.g +
       wIMDB * colors.imdb.g +
-      wMetacritic * colors.metacritic.g
+      wMetacritic * colors.metacritic.g +
+      wOriginality * colors.originality.g +
+      wAwards * colors.awards.g
     );
     const b = Math.round(
       wBox * colors.boxOffice.b +
       wOpening * colors.openingWeekend.b +
       wRotten * colors.rottenTomatoes.b +
       wIMDB * colors.imdb.b +
-      wMetacritic * colors.metacritic.b
+      wMetacritic * colors.metacritic.b +
+      wOriginality * colors.originality.b +
+      wAwards * colors.awards.b
     );
 
     return `rgb(${r},${g},${b})`;
@@ -283,6 +330,16 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
     svg.append("g")
       .attr("transform", `translate(${margin.left},0)`)
       .call(d3.axisLeft(y));
+    
+    svg.append("text")
+      .attr("transform", `rotate(-90)`)
+      .attr("y", margin.left / 4)
+      .attr("x", -(margin.top + (height - margin.bottom)) / 2)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .style("font-size", "14px")
+      .style("fill", "white") 
+      .text("Calculated Magic Score");
 
     document.addEventListener("click", (event) => {
       const panel = document.querySelector(".expanded-panel");
@@ -338,6 +395,16 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
         <label>Metacritic: <span id="metacriticWeightLabel">--</span>%</label>
         <input type="range" id="metacriticWeight" min="0" max="100" value="50">
       </div>
+
+      <div class="slider-group">
+        <label>Originality: <span id="originalityWeightLabel">--</span>%</label>
+        <input type="range" id="originalityWeight" min="0" max="100" value="50">
+      </div>
+
+      <div class="slider-group">
+        <label>Awards: <span id="awardsWeightLabel">--</span>%</label>
+        <input type="range" id="awardsWeight" min="0" max="100" value="50">
+      </div>
     `);
 
     d3.select("#boxWeight").on("input", function() {
@@ -370,16 +437,30 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
       updateChart();
     });
 
+    d3.select("#originalityWeight").on("input", function() {
+      weightOriginality = +this.value;
+      updateSliderLabels();
+      updateChart();
+    });
+    
+    d3.select("#awardsWeight").on("input", function() {
+      weightAwards = +this.value;
+      updateSliderLabels();
+      updateChart();
+    });
+
     updateSliderLabels();
   }
 
   function updateSliderLabels() {
-    const totalWeight = weightBoxOffice + weightOpening + weightRotten + weightIMDB + weightMetacritic;
+    const totalWeight = weightBoxOffice + weightOpening + weightRotten + weightIMDB + weightMetacritic + weightOriginality + weightAwards;
     d3.select("#boxWeightLabel").text(totalWeight === 0 ? 0 : Math.round((weightBoxOffice / totalWeight) * 100));
     d3.select("#openingWeightLabel").text(totalWeight === 0 ? 0 : Math.round((weightOpening / totalWeight) * 100));
     d3.select("#rottenWeightLabel").text(totalWeight === 0 ? 0 : Math.round((weightRotten / totalWeight) * 100));
     d3.select("#imdbWeightLabel").text(totalWeight === 0 ? 0 : Math.round((weightIMDB / totalWeight) * 100));
     d3.select("#metacriticWeightLabel").text(totalWeight === 0 ? 0 : Math.round((weightMetacritic / totalWeight) * 100));
+    d3.select("#originalityWeightLabel").text(totalWeight === 0 ? 0 : Math.round((weightOriginality / totalWeight) * 100));
+    d3.select("#awardsWeightLabel").text(totalWeight === 0 ? 0 : Math.round((weightAwards / totalWeight) * 100));
   }
 
   function updateChart() {
