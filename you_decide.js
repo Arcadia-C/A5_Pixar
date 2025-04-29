@@ -302,7 +302,6 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
                 <div xmlns="http://www.w3.org/1999/xhtml" style="
                   font-size: 12px;
                   padding: 8px;
-                  background: url('${d.image}') center center / cover no-repeat;
                   border-radius: 8px;
                   overflow: auto;
                   height: 100%;
@@ -317,17 +316,47 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
                       padding: 0;
                     ">✕</button>
                   </div>
-                  <div style="font-weight: bold; font-size: 14px;">${d.movie}</div>
+
+                  <div style="font-weight: bold; font-size: 18px; margin-bottom: 4px;">${d.movie}</div>
+
                   ${d.youtube_trailer_url ? `
                     <div style="margin-top: 10px;">
                       <iframe width="100%" height="150" src="${d.youtube_trailer_url}" frameborder="0" allowfullscreen></iframe>
                     </div>` : ''}
+
+                  <div style="
+                    font-size: 16px;
+                    font-weight: 900;
+                    color: #ffef00;
+                    background: rgba(0, 0, 0, 0.6);
+                    padding: 6px 12px;
+                    border-radius: 8px;
+                    display: inline-block;
+                    box-shadow: 0 0 8px rgba(255, 239, 0, 0.8);
+                    margin: 10px 0;
+                  ">
+                    ⭐ Magic Score: ${computeMagicScore(d).toFixed(1)} ⭐
+                  </div>
                   <div style="margin-bottom: 4px;">Released: ${d.year_released}</div>
-                  <div><strong>Director:</strong> ${d.director}</div>
-                  <div><strong>Genre:</strong> ${d.movie_genre}</div>
-                  <div><strong>Rating:</strong> ${d.movie_rating}</div>
-                  <div><strong>Rotten Tomatoes:</strong> ${d.rotten_tomatoes_rating}</div>
+                  <div style="
+                    margin-top: 10px;
+                    background: rgba(0,0,0,0.5);
+                    padding: 8px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    color: white;
+                    line-height: 1.4;
+                  ">
+                    <div><strong>Raw Metrics:</strong></div>
+                    <div>Box Office: $${(d.total_worldwide_gross_sales / 1e6).toFixed(1)}M</div>
+                    <div>Opening Weekend: $${(d.opening_weekend_box_office_sales / 1e6).toFixed(1)}M</div>
+                    <div>Rotten Tomatoes: ${d.rotten_tomatoes_rating}%</div>
+                    <div>IMDb: ${(d.imdb_rating / 10).toFixed(1)}/10</div>
+                    <div>Metacritic: ${d.metacritic_rating}</div>
+                    <div>Awards Score: ${d.awards_score.toFixed(1)}</div>
+                  </div>
                   <div style="margin-top: 8px; font-style: italic;">${d.plot_summary}</div>
+                  <div style="height: 30px;"></div>
                 </div>
               `);
           });
