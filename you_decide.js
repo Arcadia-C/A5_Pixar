@@ -362,9 +362,9 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
       }
     });
 
-    window.closeExpandedBar = function () {
-      d3.selectAll(".expanded-panel").remove();
-      d3.selectAll("rect")
+    function closeExpandedBar() {
+      svg.selectAll(".expanded-panel").remove();
+      svg.selectAll("rect")
         .transition()
         .duration(500)
         .attr("x", d => x(d.movie))
@@ -373,12 +373,14 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
         .attr("height", d => y(0) - y(computeMagicScore(d)))
         .attr("fill", computeBarColor())
         .attr("opacity", 1);
-      d3.selectAll(".x-axis text")
+      svg.selectAll(".x-axis text")
         .style("font-weight", null)
         .style("fill", null);
       activeBar = null;
       tooltipLocked = false;
-    };
+    }
+
+    window.closeExpandedBar = closeExpandedBar;
   }
 
   function setupSliders(data) {
