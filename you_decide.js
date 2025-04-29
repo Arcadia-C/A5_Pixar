@@ -141,44 +141,57 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
   function computeBarColor() {
     const totalWeight = weightBoxOffice + weightOpening + weightRotten + weightIMDB + weightMetacritic + weightOriginality + weightAwards;
     if (totalWeight === 0) return "#ccc";
-
-    const wBox = weightBoxOffice / totalWeight;
-    const wOpening = weightOpening / totalWeight;
-    const wRotten = weightRotten / totalWeight;
-    const wIMDB = weightIMDB / totalWeight;
-    const wMetacritic = weightMetacritic / totalWeight;
-    const wOriginality = weightOriginality / totalWeight;
-    const wAwards = weightAwards / totalWeight;
-
-    const r = Math.round(
-      wBox * colors.boxOffice.r +
-      wOpening * colors.openingWeekend.r +
-      wRotten * colors.rottenTomatoes.r +
-      wIMDB * colors.imdb.r +
-      wMetacritic * colors.metacritic.r +
-      wOriginality * colors.originality.r +
-      wAwards * colors.awards.r
-    );
-    const g = Math.round(
-      wBox * colors.boxOffice.g +
-      wOpening * colors.openingWeekend.g +
-      wRotten * colors.rottenTomatoes.g +
-      wIMDB * colors.imdb.g +
-      wMetacritic * colors.metacritic.g +
-      wOriginality * colors.originality.g +
-      wAwards * colors.awards.g
-    );
-    const b = Math.round(
-      wBox * colors.boxOffice.b +
-      wOpening * colors.openingWeekend.b +
-      wRotten * colors.rottenTomatoes.b +
-      wIMDB * colors.imdb.b +
-      wMetacritic * colors.metacritic.b +
-      wOriginality * colors.originality.b +
-      wAwards * colors.awards.b
-    );
-
-    return `rgb(${r},${g},${b})`;
+  
+    const w = {
+      box: weightBoxOffice / totalWeight,
+      opening: weightOpening / totalWeight,
+      rotten: weightRotten / totalWeight,
+      imdb: weightIMDB / totalWeight,
+      meta: weightMetacritic / totalWeight,
+      orig: weightOriginality / totalWeight,
+      awards: weightAwards / totalWeight
+    };
+  
+    // Compute blended color
+    const blended = {
+      r: Math.round(
+        w.box * colors.boxOffice.r +
+        w.opening * colors.openingWeekend.r +
+        w.rotten * colors.rottenTomatoes.r +
+        w.imdb * colors.imdb.r +
+        w.meta * colors.metacritic.r +
+        w.orig * colors.originality.r +
+        w.awards * colors.awards.r
+      ),
+      g: Math.round(
+        w.box * colors.boxOffice.g +
+        w.opening * colors.openingWeekend.g +
+        w.rotten * colors.rottenTomatoes.g +
+        w.imdb * colors.imdb.g +
+        w.meta * colors.metacritic.g +
+        w.orig * colors.originality.g +
+        w.awards * colors.awards.g
+      ),
+      b: Math.round(
+        w.box * colors.boxOffice.b +
+        w.opening * colors.openingWeekend.b +
+        w.rotten * colors.rottenTomatoes.b +
+        w.imdb * colors.imdb.b +
+        w.meta * colors.metacritic.b +
+        w.orig * colors.originality.b +
+        w.awards * colors.awards.b
+      )
+    };
+  
+    // Brightening (toward white)
+    const brightenFactor = 1.2; // tune this
+    const brightened = {
+      r: Math.round(blended.r * brightenFactor),
+      g: Math.round(blended.g * brightenFactor),
+      b: Math.round(blended.b * brightenFactor),
+    };
+  
+    return `rgb(${brightened.r},${brightened.g},${brightened.b})`;
   }
 
   // Draw the bar chart
