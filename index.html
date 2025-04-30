@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <title>Pixar Visualization</title>
-    <script src="d3.v7.min.js"></script>
+    <script src="plots/d3.v7.min.js"></script>
     <style>
       .reveal-container {
         margin-top: 40px;
@@ -277,6 +277,12 @@
           <label for="adaptedScreenplay">Adapted Screenplay</label>
         </div>
 
+        <!-- Audience Reception Section -->
+        <div class="hover-bar" id="revealAudience">Audience Reception</div>
+        <div id="visualization-wrapper-audience" class="viz-wrapper">
+          <div id="audience-chart"></div>
+        </div>
+
         <!-- You Decide Section -->
         <div class="hover-bar" id="revealYouDecide">You Decide</div>
         <div id="visualization-wrapper-youdecide" class="viz-wrapper">
@@ -300,11 +306,12 @@
       <div style="height: 2000px"></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <script type="module" src="index_script.js"></script>
-    <script type="module" src="originality.js"></script>
-    <script type="module" src="you_decide.js"></script>
-    <script type="module" src="critical_reception.js"></script>
-    <script type="module" src="pixar_dreamworks.js"></script>
+    <script type="module" src="plots/index_script.js"></script>
+    <script type="module" src="plots/originality.js"></script>
+    <script type="module" src="plots/you_decide.js"></script>
+    <script type="module" src="plots/critical_reception.js"></script>
+    <script type="module" src="plots/pixar_dreamworks.js"></script>
+    <script type="module" src="plots/audience_reception.js"></script>
 
     <div
       id="tooltip"
@@ -338,6 +345,7 @@
         toggleReveal("revealOriginality", "visualization-wrapper-originality");
         toggleReveal("revealYouDecide", "visualization-wrapper-youdecide");
         toggleReveal("revealCritical", "visualization-wrapper-critical");
+        toggleReveal("revealAudience", "visualization-wrapper-audience");
       });
       document
         .getElementById("window-size")
