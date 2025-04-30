@@ -41,6 +41,10 @@ h3 {
   overflow-x: auto;
 }
 
+svg {
+  overflow: visible; /* prevent clipping of foreignObject panels */
+}
+
 /* Paragraphs & Lists */
 p {
   margin-bottom: 20px;

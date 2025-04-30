@@ -263,6 +263,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
       .range([height - margin.bottom, margin.top]);
 
     let activeBar = null;
+    let activePanel = null;
     let tooltipLocked = false;
 
     bars = svg
@@ -300,6 +301,10 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
           .style("fill", null);
       })
       .on("click", function (event, d) {
+        if (activePanel) {
+          activePanel.remove(); // remove previous overlay div
+          activePanel = null;
+        }
         event.stopPropagation();
         d3.select(this).raise();
 
@@ -337,15 +342,29 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
           .attr("y", expandedY)
           .attr("height", expandedHeight)
           .attr("fill", "tomato")
-          .attr("opacity", 0.8)
+          .attr("opacity", 1)
           .on("end", () => {
-            svg
-              .append("foreignObject")
-              .attr("class", "expanded-panel")
-              .attr("x", expandedX + 5)
-              .attr("y", expandedY + 5)
-              .attr("width", expandedWidth - 10)
-              .attr("height", expandedHeight - 10).html(`
+            // svg
+            //   .append("foreignObject")
+            //   .attr("class", "expanded-panel")
+            //   .attr("x", expandedX + 5)
+            //   .attr("y", expandedY + 5)
+            //   .attr("width", expandedWidth - 10)
+            //   .attr("height", expandedHeight - 10).html(`
+            activePanel = d3
+              .select("body")
+              .append("div")
+              .attr("class", "info-panel")
+              .style("position", "fixed")
+              .style("left", expandedX + margin.left + "px") // you already have expandedX/Y
+              .style("top", expandedY + margin.top + "px")
+              .style("width", expandedWidth + "px")
+              .style("height", expandedHeight + "px")
+              .style("border-radius", "8px")
+              .style("background", "rgba(30,30,30,0.95)")
+              .style("box-shadow", "0 4px 16px rgba(0,0,0,0.4)")
+              .style("z-index", 10000) // always on top
+              .html(`
                 <div xmlns="http://www.w3.org/1999/xhtml" style="
                   font-size: 12px;
                   padding: 8px;
@@ -420,6 +439,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
                   <div style="height: 30px;"></div>
                 </div>
               `);
+            bar.attr("fill", "transparent");
           });
       });
 
@@ -456,6 +476,10 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
     });
 
     function closeExpandedBar() {
+      if (activePanel) {
+        activePanel.remove();
+        activePanel = null;
+      }
       svg.selectAll(".expanded-panel").remove();
       svg
         .selectAll("rect")
