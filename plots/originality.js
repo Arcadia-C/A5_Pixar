@@ -1,4 +1,4 @@
-d3.csv("datasets/box_office_clean.csv").then((data) => {
+d3.csv("../datasets/box_office_clean.csv").then((data) => {
   const knownSequels = [
     "Finding Dory",
     "Lightyear",

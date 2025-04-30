@@ -36,6 +36,18 @@ h3 {
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent for readability */
   color: white;
 }
+.viz-wrapper {
+  min-width: 900px;
+  overflow-x: auto;
+}
+
+svg {
+  overflow: visible; /* prevent clipping of foreignObject panels */
+}
+
+.controls {
+  margin-bottom: 40px;
+}
 
 /* Paragraphs & Lists */
 p {
