@@ -32,7 +32,19 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
     setupSliders(moviesData); // build the sliders
     renderBarChart(moviesData); // draw the chart
   });
-
+  const CPI = {
+    startYear: 1995,
+    endYear: 2025,
+    startVal: 150, // 1995 CPI
+    endVal: 320, // March-2025 CPI  ➜  “today’s dollars”
+    todayVal: 320,
+  };
+  function estCPI(year) {
+    if (year <= CPI.startYear) return CPI.startVal;
+    if (year >= CPI.endYear) return CPI.endVal;
+    const slope = (CPI.endVal - CPI.startVal) / (CPI.endYear - CPI.startYear);
+    return CPI.startVal + slope * (year - CPI.startYear);
+  }
   // Compute Originality and Awards Scores
   function preprocessData(moviesData, awardsData) {
     const knownSequels = [
@@ -68,11 +80,21 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
     const maxAwardScore = d3.max(Object.values(awardPoints));
 
     moviesData.forEach((d) => {
-      // Normalize sales
       d.total_worldwide_gross_sales = parseSales(d.total_worldwide_gross_sales);
       d.opening_weekend_box_office_sales = parseSales(
         d.opening_weekend_box_office_sales
       );
+
+      // 2️⃣  🔸 adjust BOTH numbers to 2025 dollars
+      const movieCPI = estCPI(+d.year_released);
+      d.total_worldwide_gross_sales *= CPI.todayVal / movieCPI;
+      d.opening_weekend_box_office_sales *= CPI.todayVal / movieCPI;
+
+      // Normalize sales
+      // d.total_worldwide_gross_sales = parseSales(d.total_worldwide_gross_sales);
+      // d.opening_weekend_box_office_sales = parseSales(
+      //   d.opening_weekend_box_office_sales
+      // );
 
       d.normalized_gross = (d.total_worldwide_gross_sales / maxGross) * 100;
       d.normalized_opening =
