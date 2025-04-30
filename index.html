@@ -10,7 +10,7 @@
       .reveal-container {
         margin-top: 40px;
       }
-    
+
       .hover-bar {
         width: 100%;
         background-color: rgba(255, 255, 255, 0.12);
@@ -25,21 +25,21 @@
         cursor: pointer;
         transition: background-color 0.3s;
       }
-    
+
       .hover-bar:hover {
         background-color: rgba(255, 255, 255, 0.25);
       }
-    
+
       .viz-wrapper {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.8s ease;
       }
-    
+
       .viz-wrapper.revealed {
         max-height: 800px; /* Adjust based on graph size */
       }
-    
+
       #tooltip {
         position: absolute;
         background: white;
@@ -50,69 +50,72 @@
         pointer-events: none;
         opacity: 0;
         border-radius: 4px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
         z-index: 1000;
         pointer-events: auto;
       }
-    
-    /* Base slider styling */
-    input[type=range] {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 8px;
-      border-radius: 5px;
-      background: #ddd;
-      outline: none;
-    }
 
-    /* Customize the track (for Chrome, Safari) */
-    #boxWeight::-webkit-slider-runnable-track {
-      background: green;
-    }
+      /* Base slider styling */
+      input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 8px;
+        border-radius: 5px;
+        background: #ddd;
+        outline: none;
+      }
 
-    #openingWeight::-webkit-slider-runnable-track {
-      background: green;
-    }
+      /* Customize the track (for Chrome, Safari) */
+      #boxWeight::-webkit-slider-runnable-track {
+        background: green;
+      }
 
-    #rottenWeight::-webkit-slider-runnable-track {
-      background: red;
-    }
+      #openingWeight::-webkit-slider-runnable-track {
+        background: green;
+      }
 
-    #imdbWeight::-webkit-slider-runnable-track {
-      background: yellow;
-    }
+      #rottenWeight::-webkit-slider-runnable-track {
+        background: red;
+      }
 
-    #metacriticWeight::-webkit-slider-runnable-track {
-      background: orange;
-    }
+      #imdbWeight::-webkit-slider-runnable-track {
+        background: yellow;
+      }
 
-    #originalityWeight::-webkit-slider-runnable-track {
-      background: purple;
-    }
+      #metacriticWeight::-webkit-slider-runnable-track {
+        background: orange;
+      }
 
-    #awardsWeight::-webkit-slider-runnable-track {
-      background: blue;
-    }
+      #originalityWeight::-webkit-slider-runnable-track {
+        background: purple;
+      }
 
-    /* Make thumbs stand out a bit */
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 12px;
-      height: 12px;
-      background: white;
-      border: 2px solid #888;
-      border-radius: 50%;
-      cursor: pointer;
-      margin-top: 0 px; /* centers thumb vertically */
-    }
+      #awardsWeight::-webkit-slider-runnable-track {
+        background: blue;
+      }
+
+      /* Make thumbs stand out a bit */
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 12px;
+        height: 12px;
+        background: white;
+        border: 2px solid #888;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-top: 0 px; /* centers thumb vertically */
+      }
     </style>
   </head>
 
   <body>
     <div class="content">
       <h1>Has Pixar Lost Its Magic?</h1>
-      <h3>Exploring the Evolution of Pixar Films and the Changing Landscape of Animated Storytelling.</h3>
+      <h3>
+        Exploring the Evolution of Pixar Films and the Changing Landscape of
+        Animated Storytelling.
+      </h3>
       <p>
         Not so long ago (in 1994 to be exact), on a hot day in California, there
         were four men having lunch at a frequented spot: The Hidden City Cafe.
@@ -155,7 +158,9 @@
         But are they right? Is there a way to tell if there is a decline in
         Pixar films after 2008? Or more generally...
       </p>
-      <h3>Is Pixar's perceived decline unique, or part of broader industry trends?</h3>
+      <h3>
+        Is Pixar's perceived decline unique, or part of broader industry trends?
+      </h3>
       <p>
         We could conclude that Pixar films are getting worse, but that doesn't
         mean much if the general state of cinema is in decline. To mitigate
@@ -171,14 +176,12 @@
             <option value="7">7 Years</option>
           </select>
         </div>
-        
+
         <div id="chart-container"></div>
       </div>
-      <br><br />
+      <br /><br />
       <h3>Has perception of Pixar films gotten worse?</h3>
-      <p>
-        To see if this is the case, we will dive into several metrics:
-      </p>
+      <p>To see if this is the case, we will dive into several metrics:</p>
       <ul>
         <li>1. Originality</li>
         <li>2. Box Office Returns</li>
@@ -212,30 +215,80 @@
         <div class="hover-bar" id="revealCritical">Critical Reception</div>
         <div id="visualization-wrapper-critical" class="viz-wrapper">
           <div id="critical"></div>
-          <input type="checkbox" class="awardCategory" id="originalScreenplay" checked>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="originalScreenplay"
+            checked
+          />
           <label for="originalScreenplay">Original Screenplay</label>
-          <input type="checkbox" class="awardCategory" id="animatedFeature" checked>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="animatedFeature"
+            checked
+          />
           <label for="animatedFeature">Animated Feature</label>
-          <input type="checkbox" class="awardCategory" id="originalScore" checked>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="originalScore"
+            checked
+          />
           <label for="originalScore">Original Score</label>
-          <input type="checkbox" class="awardCategory" id="originalSong" checked>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="originalSong"
+            checked
+          />
           <label for="originalSong">Original Song</label>
-          <input type="checkbox" class="awardCategory" id="soundEditing" checked>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="soundEditing"
+            checked
+          />
           <label for="soundEditing">Sound Editing</label>
-          <input type="checkbox" class="awardCategory" id="soundMixing" checked>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="soundMixing"
+            checked
+          />
           <label for="soundMixing">Sound Mixing</label>
-          <input type="checkbox" class="awardCategory" id="bestPicture" checked>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="bestPicture"
+            checked
+          />
           <label for="bestPicture">Best Picture</label>
-          <input type="checkbox" class="awardCategory" id="adaptedScreenplay" checked>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="adaptedScreenplay"
+            checked
+          />
           <label for="adaptedScreenplay">Adapted Screenplay</label>
         </div>
 
         <!-- You Decide Section -->
         <div class="hover-bar" id="revealYouDecide">You Decide</div>
         <div id="visualization-wrapper-youdecide" class="viz-wrapper">
-          <div style="display: flex;">
-            <div id="you-decide-viz" style="flex: 3;"></div>
-            <div id="you-decide-controls" style="flex: 1; margin-left: 20px;"></div>
+          <div style="display: flex">
+            <div style="display: flex">
+              <div id="you-decide-viz" style="flex: 3; min-width: 700px"></div>
+              <div
+                id="you-decide-controls"
+                style="
+                  flex: 0 0 300px; /* always 300 px wide */
+                  margin-left: 20px;
+                  max-height: 580px; /* same as chart height minus some padding */
+                  overflow-y: auto; /* vertical scroll if content is taller */
+                "
+              ></div>
+            </div>
           </div>
         </div>
       </div>
@@ -249,51 +302,56 @@
     <script type="module" src="critical_reception.js"></script>
     <script type="module" src="pixar_dreamworks.js"></script>
 
-    <div id="tooltip" style="
-    position: absolute;
-    background: white;
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-    font-size: 12px;
-    pointer-events: none;
-    opacity: 0;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    "></div>
+    <div
+      id="tooltip"
+      style="
+        position: absolute;
+        background: white;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        font-size: 12px;
+        pointer-events: none;
+        opacity: 0;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      "
+    ></div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const toggleReveal = (barId, wrapperId) => {
-        const bar = document.getElementById(barId);
-        const wrapper = document.getElementById(wrapperId);
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const toggleReveal = (barId, wrapperId) => {
+          const bar = document.getElementById(barId);
+          const wrapper = document.getElementById(wrapperId);
 
-        if (bar && wrapper) {
-          bar.addEventListener("click", () => {
-            wrapper.classList.toggle("revealed");
-          });
-        }
-      };
+          if (bar && wrapper) {
+            bar.addEventListener("click", () => {
+              wrapper.classList.toggle("revealed");
+            });
+          }
+        };
 
-      toggleReveal("revealBoxOffice", "visualization-wrapper-boxoffice");
-      toggleReveal("revealOriginality", "visualization-wrapper-originality");
-      toggleReveal("revealYouDecide", "visualization-wrapper-youdecide");
-      toggleReveal("revealCritical", "visualization-wrapper-critical");
-    });
-    document.getElementById('window-size').addEventListener('change', function() {
-      const windowSize = parseInt(this.value);
-      document.getElementById('window-size-text').textContent = windowSize;
-      
-      // Clear previous chart
-      document.getElementById('chart-container').innerHTML = '';
-    
-      // Re-load the chart with the new window size
-      // The main JS file will read this value when creating the chart
-      // d3.csv("data/merged_movie_data.csv").then((data) => {
-      //   // The main chart code will run again from pixar-dreamworks-chart.js
-      // }).catch(error => {
-      //   console.error('Error reloading data:', error);
-      // });
-  });
-  </script>
-</body>
+        toggleReveal("revealBoxOffice", "visualization-wrapper-boxoffice");
+        toggleReveal("revealOriginality", "visualization-wrapper-originality");
+        toggleReveal("revealYouDecide", "visualization-wrapper-youdecide");
+        toggleReveal("revealCritical", "visualization-wrapper-critical");
+      });
+      document
+        .getElementById("window-size")
+        .addEventListener("change", function () {
+          const windowSize = parseInt(this.value);
+          document.getElementById("window-size-text").textContent = windowSize;
+
+          // Clear previous chart
+          document.getElementById("chart-container").innerHTML = "";
+
+          // Re-load the chart with the new window size
+          // The main JS file will read this value when creating the chart
+          // d3.csv("data/merged_movie_data.csv").then((data) => {
+          //   // The main chart code will run again from pixar-dreamworks-chart.js
+          // }).catch(error => {
+          //   console.error('Error reloading data:', error);
+          // });
+        });
+    </script>
+  </body>
 </html>
