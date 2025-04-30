@@ -224,7 +224,7 @@ d3.csv("../datasets/merged_movie_data.csv")
     chart
       .append("path")
       .datum(dataWithTrends.filter((d) => d.pixarTrend !== null))
-      .attr("class", "trend-line")
+      .attr("class", "trend-line pixar")
       .attr("d", pixarTrendLine)
       .attr("fill", "none")
       .attr("stroke", "#0284c7")
@@ -233,7 +233,7 @@ d3.csv("../datasets/merged_movie_data.csv")
     chart
       .append("path")
       .datum(dataWithTrends.filter((d) => d.dreamworksTrend !== null))
-      .attr("class", "trend-line")
+      .attr("class", "trend-line dreamworks")
       .attr("d", dreamworksTrendLine)
       .attr("fill", "none")
       .attr("stroke", "#65a30d")
@@ -241,7 +241,26 @@ d3.csv("../datasets/merged_movie_data.csv")
 
     addPoints("pixar", "#0284c7", "pixarRating"); // blue
     addPoints("dreamworks", "#65a30d", "dreamworksRating"); // green
-    // Add data points for DreamWorks
+
+    // Update trend lines when user changes window-size dropdown
+    document.getElementById("window-size").addEventListener("change", (event) => {
+      const newWindow = parseInt(event.target.value) || 3;
+      const updatedData = calculateMovingAverages(yearlyData, newWindow);
+      // update Pixar trend
+      chart
+        .select("path.trend-line.pixar")
+        .datum(updatedData.filter((d) => d.pixarTrend !== null))
+        .transition()
+        .duration(500)
+        .attr("d", pixarTrendLine);
+      // update DreamWorks trend
+      chart
+        .select("path.trend-line.dreamworks")
+        .datum(updatedData.filter((d) => d.dreamworksTrend !== null))
+        .transition()
+        .duration(500)
+        .attr("d", dreamworksTrendLine);
+    });
 
     // Add chart title
     svg
