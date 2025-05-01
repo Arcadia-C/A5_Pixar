@@ -45,7 +45,7 @@ const pixarFilms = [
         rating: 97, 
         boxOffice: 631, 
         isOriginalConcept: true, 
-        character: "https://cdn-icons-png.flaticon.com/512/1660/1660226.png" 
+        character: "images/incredibles.webp" 
     },
     { 
       title: "Cars", 
@@ -53,7 +53,7 @@ const pixarFilms = [
       rating: 74, 
       boxOffice: 461, 
       isOriginalConcept: true, 
-      character: "https://cdn-icons-png.flaticon.com/512/3097/3097144.png" 
+      character: "images/cars.webp" 
     },
     { 
       title: "Ratatouille", 
@@ -61,7 +61,7 @@ const pixarFilms = [
       rating: 96, 
       boxOffice: 623, 
       isOriginalConcept: true, 
-      character: "https://cdn-icons-png.flaticon.com/512/7196/7196116.png" 
+      character: "images/rat.webp" 
     },
     { 
       title: "WALL·E", 
@@ -69,7 +69,7 @@ const pixarFilms = [
       rating: 95, 
       boxOffice: 521, 
       isOriginalConcept: true, 
-      character: "https://cdn-icons-png.flaticon.com/512/4233/4233830.png" 
+      character: "images/walle.webp" 
     },
     { 
       title: "Up", 
@@ -77,7 +77,7 @@ const pixarFilms = [
       rating: 98, 
       boxOffice: 735, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/6556/6556398.png" 
+      character: "images/up-man.webp" 
     },
     { 
       title: "Toy Story 3", 
@@ -85,7 +85,7 @@ const pixarFilms = [
       rating: 98, 
       boxOffice: 1066, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/2991/2991406.png" 
+      character: "images/woody.webp" 
     },
     { 
       title: "Cars 2", 
@@ -93,7 +93,7 @@ const pixarFilms = [
       rating: 39, 
       boxOffice: 559, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/3097/3097143.png" 
+      character: "images/cars.webp" 
     },
     { 
       title: "Brave", 
@@ -101,7 +101,7 @@ const pixarFilms = [
       rating: 78, 
       boxOffice: 538, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/942/942257.png" 
+      character: "images/brave.webp" 
     },
     { 
       title: "Monsters University", 
@@ -109,7 +109,7 @@ const pixarFilms = [
       rating: 80, 
       boxOffice: 743, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/2232/2232688.png" 
+      character: "images/monsters-u.webp" 
     },
     { 
       title: "Inside Out", 
@@ -117,7 +117,7 @@ const pixarFilms = [
       rating: 98, 
       boxOffice: 857, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/742/742747.png" 
+      character: "images/inside-out.jpg" 
     },
     { 
       title: "The Good Dinosaur", 
@@ -125,7 +125,7 @@ const pixarFilms = [
       rating: 76, 
       boxOffice: 332, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/3069/3069172.png" 
+      character: "images/good-dino.webp" 
     },
     { 
       title: "Finding Dory", 
@@ -133,7 +133,7 @@ const pixarFilms = [
       rating: 94, 
       boxOffice: 1028, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/4034/4034261.png" 
+      character: "images/dory.webp" 
     },
     { 
       title: "Cars 3", 
@@ -141,7 +141,7 @@ const pixarFilms = [
       rating: 69, 
       boxOffice: 383, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/741/741407.png" 
+      character: "images/cars.webp" 
     },
     { 
       title: "Coco", 
@@ -149,7 +149,7 @@ const pixarFilms = [
       rating: 97, 
       boxOffice: 807, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/2446/2446072.png" 
+      character: "images/coco.webp" 
     },
     { 
       title: "Incredibles 2", 
@@ -157,7 +157,7 @@ const pixarFilms = [
       rating: 93, 
       boxOffice: 1242, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/1691/1691243.png" 
+      character: "images/incredibles.webp" 
     },
     { 
       title: "Toy Story 4", 
@@ -165,7 +165,7 @@ const pixarFilms = [
       rating: 97, 
       boxOffice: 1073, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/1752/1752427.png" 
+      character: "images/woody.webp" 
     },
     { 
       title: "Onward", 
@@ -173,7 +173,7 @@ const pixarFilms = [
       rating: 88, 
       boxOffice: 133, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/1680/1680242.png" 
+      character: "images/onward.webp" 
     },
     { 
       title: "Soul", 
@@ -181,7 +181,7 @@ const pixarFilms = [
       rating: 95, 
       boxOffice: 117, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/3659/3659784.png" 
+      character: "images/soul.webp" 
     },
     { 
       title: "Luca", 
@@ -189,7 +189,7 @@ const pixarFilms = [
       rating: 91, 
       boxOffice: 49, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/2928/2928181.png" 
+      character: "images/luca.webp" 
     },
     { 
       title: "Turning Red", 
@@ -205,7 +205,7 @@ const pixarFilms = [
       rating: 74, 
       boxOffice: 226, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/3049/3049465.png" 
+      character: "images/lightyear.webp" 
     },
     { 
       title: "Elemental", 
@@ -221,7 +221,7 @@ const pixarFilms = [
       rating: 90, 
       boxOffice: 1359, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/5231/5231019.png" 
+      character: "images/inside-out.webp" 
     }
 ];
   
