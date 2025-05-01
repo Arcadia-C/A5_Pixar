@@ -239,7 +239,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
     d3.select("#you-decide-viz").selectAll("*").remove(); // Clear old SVG
 
     const chartContainer = document.getElementById("you-decide-viz");
-    const width = Math.max(chartContainer.clientWidth, 700); // keep your 700-px minimum
+    const width = Math.min(chartContainer.clientWidth, 700);
 
     const height = 600;
     const margin = { top: 60, right: 50, bottom: 120, left: 80 };
@@ -280,14 +280,14 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
       .attr("data-orig-width", x.bandwidth())
       .on("mouseover", function (event, d) {
         if (activeBar === this) return;
-        d3.select(this).attr("fill", "tomato");
+        d3.select(this).attr("fill", "#423663");
         svg
           .selectAll(".x-axis text")
           .filter(function () {
             return d3.select(this).text() === d.movie;
           })
           .style("font-weight", "bold")
-          .style("fill", "#d33");
+          .style("fill", "#ffef00");
       })
       .on("mouseout", function (event, d) {
         if (activeBar === this) return;
@@ -341,7 +341,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
           .attr("width", expandedWidth)
           .attr("y", expandedY)
           .attr("height", expandedHeight)
-          .attr("fill", "tomato")
+          .attr("fill", "#423663")
           .attr("opacity", 1)
           .on("end", () => {
             // svg
@@ -358,10 +358,10 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
               .style("position", "fixed")
               .style("left", expandedX + margin.left + "px") // you already have expandedX/Y
               .style("top", expandedY + margin.top + "px")
-              .style("width", expandedWidth + "px")
-              .style("height", expandedHeight + "px")
+              .style("width", expandedWidth + 20 + "px")
+              .style("height", expandedHeight - "px")
               .style("border-radius", "8px")
-              .style("background", "rgba(30,30,30,0.95)")
+              .style("background", "#423663")
               .style("box-shadow", "0 4px 16px rgba(0,0,0,0.4)")
               .style("z-index", 10000) // always on top
               .html(`
@@ -507,37 +507,37 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
     controls.html(`
       <div class="slider-group">
-        <label>Box Office: <span id="boxWeightLabel">--</span>%</label>
+        <label>Box Office: <span id="boxWeightLabel">--</span>%</label><br>
         <input type="range" id="boxWeight" min="0" max="100" value="50">
       </div>
 
       <div class="slider-group">
-        <label>Opening Weekend: <span id="openingWeightLabel">--</span>%</label>
+        <label>Opening Weekend: <span id="openingWeightLabel">--</span>%</label><br>
         <input type="range" id="openingWeight" min="0" max="100" value="50">
       </div>
 
       <div class="slider-group">
-        <label>Rotten Tomatoes: <span id="rottenWeightLabel">--</span>%</label>
+        <label>Rotten Tomatoes: <span id="rottenWeightLabel">--</span>%</label><br>
         <input type="range" id="rottenWeight" min="0" max="100" value="50">
       </div>
 
       <div class="slider-group">
-        <label>IMDB: <span id="imdbWeightLabel">--</span>%</label>
+        <label>IMDB: <span id="imdbWeightLabel">--</span>%</label><br>
         <input type="range" id="imdbWeight" min="0" max="100" value="50">
       </div>
 
       <div class="slider-group">
-        <label>Metacritic: <span id="metacriticWeightLabel">--</span>%</label>
+        <label>Metacritic: <span id="metacriticWeightLabel">--</span>%</label><br>
         <input type="range" id="metacriticWeight" min="0" max="100" value="50">
       </div>
 
       <div class="slider-group">
-        <label>Originality: <span id="originalityWeightLabel">--</span>%</label>
+        <label>Originality: <span id="originalityWeightLabel">--</span>%</label><br>
         <input type="range" id="originalityWeight" min="0" max="100" value="50">
       </div>
 
       <div class="slider-group">
-        <label>Awards: <span id="awardsWeightLabel">--</span>%</label>
+        <label>Awards: <span id="awardsWeightLabel">--</span>%</label><br>
         <input type="range" id="awardsWeight" min="0" max="100" value="50">
       </div>
     `);
