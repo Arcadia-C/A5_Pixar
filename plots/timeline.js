@@ -21,7 +21,7 @@ const pixarFilms = [
         rating: 100, 
         boxOffice: 497, 
         isOriginalConcept: true, 
-        character: "https://static.wikia.nocookie.net/disney/images/1/11/Profile_-_Jessie.jpeg/revision/latest?cb=20190313152740" 
+        character: "images/woody.webp" 
     },
     { 
         title: "Monsters, Inc.", 
@@ -221,7 +221,7 @@ const pixarFilms = [
       rating: 90, 
       boxOffice: 1359, 
       isOriginalConcept: false, 
-      character: "images/inside-out.webp" 
+      character: "images/inside-out.jpg" 
     }
 ];
   
