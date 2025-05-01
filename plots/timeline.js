@@ -1,51 +1,51 @@
 const pixarFilms = [
     { 
-      title: "Toy Story", 
-      year: 1995, 
-      rating: 100, 
-      boxOffice: 373, 
-      isOriginalConcept: true, 
-      character: "https://cdn-icons-png.flaticon.com/512/6569/6569164.png" 
+        title: "Toy Story", 
+        year: 1995, 
+        rating: 100, 
+        boxOffice: 373, 
+        isOriginalConcept: true, 
+        character: "images/woody.webp" 
     },
     { 
-      title: "A Bug's Life", 
-      year: 1998, 
-      rating: 92, 
-      boxOffice: 363, 
-      isOriginalConcept: true, 
-      character: "https://cdn-icons-png.flaticon.com/512/517/517616.png" 
+        title: "A Bug's Life", 
+        year: 1998, 
+        rating: 92, 
+        boxOffice: 363, 
+        isOriginalConcept: true, 
+        character: "images/bugs-life.webp" 
     },
     { 
-      title: "Toy Story 2", 
-      year: 1999, 
-      rating: 100, 
-      boxOffice: 497, 
-      isOriginalConcept: true, 
-      character: "https://cdn-icons-png.flaticon.com/512/1864/1864509.png" 
+        title: "Toy Story 2", 
+        year: 1999, 
+        rating: 100, 
+        boxOffice: 497, 
+        isOriginalConcept: true, 
+        character: "https://static.wikia.nocookie.net/disney/images/1/11/Profile_-_Jessie.jpeg/revision/latest?cb=20190313152740" 
     },
     { 
-      title: "Monsters, Inc.", 
-      year: 2001, 
-      rating: 96, 
-      boxOffice: 577, 
-      isOriginalConcept: true, 
-      character: "https://cdn-icons-png.flaticon.com/512/4212/4212269.png" 
+        title: "Monsters, Inc.", 
+        year: 2001, 
+        rating: 96, 
+        boxOffice: 577, 
+        isOriginalConcept: true, 
+        character: "images/sulley.webp" 
     },
     { 
-      title: "Finding Nemo", 
-      year: 2003, 
-      rating: 99, 
-      boxOffice: 871, 
-      isOriginalConcept: true, 
-      character: "https://cdn-icons-png.flaticon.com/512/5266/5266897.png" 
+        title: "Finding Nemo", 
+        year: 2003, 
+        rating: 99, 
+        boxOffice: 871, 
+        isOriginalConcept: true, 
+        character: "images/nemo.webp" 
     },
     { 
-      title: "The Incredibles", 
-      year: 2004, 
-      rating: 97, 
-      boxOffice: 631, 
-      isOriginalConcept: true, 
-      character: "https://cdn-icons-png.flaticon.com/512/1660/1660226.png" 
+        title: "The Incredibles", 
+        year: 2004, 
+        rating: 97, 
+        boxOffice: 631, 
+        isOriginalConcept: true, 
+        character: "https://cdn-icons-png.flaticon.com/512/1660/1660226.png" 
     },
     { 
       title: "Cars", 
@@ -490,7 +490,6 @@ films.forEach((film, index) => {
     <div class="character-icon" style="background-image: url('${film.character}')"></div>
     <div class="film-rating">${film.rating}</div>
     <div class="film-info">
-        <h3 class="film-title">${film.title}</h3>
         <p class="film-year">${film.year}</p>
     </div>
     `);
