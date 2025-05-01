@@ -78,7 +78,7 @@ d3.csv("../datasets/box_office_clean.csv").then((data) => {
     .attr("y", (d) => y(d.box_office_worldwide_adjusted))
     .attr("height", (d) => y(0) - y(d.box_office_worldwide_adjusted))
     .attr("width", x.bandwidth())
-    .attr("fill", "steelblue")
+    .attr("fill", "green")
     .on("mouseenter", function (event, d) {
       d3.select(this).attr("fill", "#ff6f61");
 
@@ -101,7 +101,7 @@ d3.csv("../datasets/box_office_clean.csv").then((data) => {
         .style("top", event.pageY - 50 + "px");
     })
     .on("mouseleave", function () {
-      d3.select(this).attr("fill", "steelblue");
+      d3.select(this).attr("fill", "green");
       tooltip.style("opacity", 0);
     });
 
