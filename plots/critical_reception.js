@@ -1,3 +1,5 @@
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
 d3.csv("../datasets/academy_filtered.csv").then((data) => {
   data.forEach((d) => {
     // Simplify if it has an X we won't visualize it in the visualization
