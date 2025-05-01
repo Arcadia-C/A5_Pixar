@@ -106,6 +106,207 @@
         cursor: pointer;
         margin-top: 0 px; /* centers thumb vertically */
       }
+    .container {
+      max-width: 90%;
+      min-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    
+    .timeline-wrapper {
+      position: relative;
+      margin-bottom: 50px;
+      height: 350px;
+    }
+    
+    .timeline {
+      position: absolute;
+      bottom: 50px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background-color: #0061d5;
+      border-radius: 2px;
+    }
+    
+    .timeline-marker {
+      position: absolute;
+      bottom: 50px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #ddd;
+      transform: translate(-50%, -50%);
+    }
+    
+    .timeline-label {
+      position: absolute;
+      bottom: 20px;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .cursor {
+      position: absolute;
+      bottom: 50px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #ff5722;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.3);
+    }
+    
+    .milestone-label {
+      position: absolute;
+      bottom: 300px;
+      width: 300px;
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transform: translateX(-50%);
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      z-index: 50;
+      border-left: 5px solid #ff5722;
+    }
+    
+    .milestone-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #0061d5;
+    }
+    
+    /* Rectangular cards with character images and titles */
+    .film-card {
+      position: absolute;
+      width: 140px;
+      height: 200px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      opacity: 0;
+      transform: translate(-50%, 0) scale(1);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      z-index: 10;
+      bottom: 80px;
+      border-top: 3px solid #0061d5;
+    }
+    
+    .film-card.visible {
+      opacity: 1;
+    }
+    
+    .film-card.current {
+      transform: translate(-50%, 0) scale(1);
+      z-index: 20;
+    }
+    
+    .film-card.past {
+      transform: translate(-50%, 0) scale(0.3);
+      z-index: 5;
+    }
+    
+    .original-concept {
+      border-top-color: #ff5722 !important;
+    }
+    
+    .character-icon {
+      width: 100%;
+      height: 120px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: #f0f0f0;
+      position: relative;
+    }
+    
+    .film-info {
+      padding: 8px;
+    }
+    
+    .film-title {
+      font-weight: bold;
+      font-size: 0.9rem;
+      margin: 0 0 5px 0;
+      line-height: 1.2;
+      height: 2.4rem;
+      overflow: hidden;
+      text-align: center;
+    }
+    
+    .film-year {
+      font-size: 0.8rem;
+      margin: 0;
+      color: #666;
+      text-align: center;
+    }
+    
+    .film-rating {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      font-weight: bold;
+      z-index: 15;
+      border: 2px solid white;
+    }
+    
+    .controls {
+      margin: 20px 0;
+      text-align: center;
+    }
+    
+    .controls button {
+      padding: 8px 16px;
+      background-color: #0061d5;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 5px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .controls button:hover {
+      background-color: #0052b3;
+    }
+    
+    .tooltip {
+      position: absolute;
+      background-color: #fff;
+      border-radius: 4px;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+      opacity: 0;
+      z-index: 100;
+      transition: opacity 0.3s ease;
+    }
+    
+    .year-display {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
     </style>
   </head>
 
@@ -116,6 +317,21 @@
         Exploring the Evolution of Pixar Films and the Changing Landscape of
         Animated Storytelling.
       </h3>
+      <div class="container">
+        <div class="year-display">Year: <span id="current-year">1994</span></div>
+        
+        <div class="controls">
+          <button id="start-animation">Start</button>
+          <button id="reset-animation">Reset</button>
+        </div>
+        
+        <div class="timeline-wrapper">
+          <div class="timeline"></div>
+          <div class="cursor"></div>
+        </div>
+        
+        <div class="tooltip"></div>
+      </div>
       <p>
         Not so long ago (in 1994 to be exact), on a hot day in California, there
         were four men having lunch at a frequented spot: The Hidden City Cafe.
@@ -331,6 +547,7 @@
     <script type="module" src="plots/you_decide.js"></script>
     <script type="module" src="plots/critical_reception.js"></script>
     <script type="module" src="plots/pixar_dreamworks.js"></script>
+    <script type="module" src="plots/timeline.js"></script>
     <script type="module" src="plots/audience_reception.js"></script>
 
     <div
