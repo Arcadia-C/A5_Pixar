@@ -1,7 +1,7 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 // IMPORTANT: Change this path to match your CSV file location in your repository
-d3.csv("../datasets/merged_movie_data.csv")
+d3.csv("datasets/merged_movie_data.csv")
   .then((data) => {
     // Process the data
     const processedData = data

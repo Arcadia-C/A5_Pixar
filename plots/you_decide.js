@@ -25,8 +25,8 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
   // Load data
   Promise.all([
-    d3.csv("../datasets/pixar_movies.csv"),
-    d3.csv("../datasets/academy.csv"),
+    d3.csv("datasets/pixar_movies.csv"),
+    d3.csv("datasets/academy.csv"),
   ]).then(([moviesData, awardsData]) => {
     preprocessData(moviesData, awardsData); // clean the data
     setupSliders(moviesData); // build the sliders

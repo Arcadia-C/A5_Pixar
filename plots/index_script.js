@@ -1,7 +1,7 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 
-d3.csv("../datasets/box_office_clean.csv").then((data) => {
+d3.csv("datasets/box_office_clean.csv").then((data) => {
   // === Inflation Adjustment Constants ===
   const cpiStartYear = 1995;
   const cpiEndYear = 2025;
