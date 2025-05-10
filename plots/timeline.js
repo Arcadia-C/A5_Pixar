@@ -482,7 +482,7 @@ function addFilmCards(films, year) {
 const timelineWrapper = d3.select('.timeline-wrapper');
 
 function getFilmYAlignment(film){
-  if (film.title == 'Lightyear'){
+  if (film.title == 'Lightyear' || film.title == 'The Good Dinosaur'){
     return '0px';
   }
   else{
