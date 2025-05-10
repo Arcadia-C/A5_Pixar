@@ -197,7 +197,7 @@ const pixarFilms = [
       rating: 95, 
       boxOffice: 17, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/5266/5266527.png" 
+      character: "images/red.jpg" 
     },
     { 
       title: "Lightyear", 
@@ -205,7 +205,7 @@ const pixarFilms = [
       rating: 74, 
       boxOffice: 226, 
       isOriginalConcept: false, 
-      character: "images/lightyear.webp" 
+      character: "images/lightyear.jpg" 
     },
     { 
       title: "Elemental", 
@@ -213,7 +213,7 @@ const pixarFilms = [
       rating: 74, 
       boxOffice: 496, 
       isOriginalConcept: false, 
-      character: "https://cdn-icons-png.flaticon.com/512/4242/4242325.png" 
+      character: "images/elemental.jpg" 
     },
     { 
       title: "Inside Out 2", 
@@ -272,7 +272,10 @@ function preloadImages() {
     pixarFilms.forEach(film => {
         const img = new Image();
         img.onerror = function() {
-        film.character = placeholderIcon;
+          console.log(film);
+          console.log("ERROR LOADING IMAGE");
+          console.log(img);
+          film.character = placeholderIcon;
         };
         img.src = film.character;
     });
@@ -502,10 +505,10 @@ films.forEach((film, index) => {
         .style('left', `${event.pageX + 10}px`)
         .style('top', `${event.pageY - 10}px`)
         .html(`
-            <strong>${film.title} (${film.year})</strong><br>
-            Rotten Tomatoes: ${film.rating}%<br>
-            Box Office: $${film.boxOffice}M<br>
-            ${film.isOriginalConcept ? '<span style="color:#ff5722">Original Brain Trust Concept</span>' : ''}
+            '<span style="color:#29b0ea"><strong>${film.title} (${film.year})</strong><br></span>
+            '<span style="color:#fc3d22">Rotten Tomatoes: ${film.rating}%<br></span>
+            '<span style="color:#c58609">Box Office: $${film.boxOffice}M<br></span>
+            ${film.isOriginalConcept ? '<span style="color:#68d65d">Original Brain Trust Concept</span>' : ''}
         `);
     })
     .on('mouseout', function() {
