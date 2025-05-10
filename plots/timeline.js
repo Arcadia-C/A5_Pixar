@@ -481,12 +481,26 @@ requestAnimationFrame(updateCursorPosition);
 function addFilmCards(films, year) {
 const timelineWrapper = d3.select('.timeline-wrapper');
 
+function getFilmYAlignment(film){
+  if (film.title == 'Lightyear'){
+    return '0px';
+  }
+  else{
+    return '100px';
+  }
+}
+
 films.forEach((film, index) => {
     // Create the card with full movie information
+
+    // If there is another film in the same year (Turning Red vs Lightyear) then put it a "step" above
+
+
     const card = timelineWrapper.append('div')
     .attr('class', `film-card current ${film.isOriginalConcept ? 'original-concept' : ''}`)
     .attr('data-year', film.year)
-    .style('left', `${timeScale(year)}px`);
+    .style('left', `${timeScale(year)}px`)
+    .style('top', `${getFilmYAlignment(film)}`);
     
     // Add character icon and film info
     card.html(`
