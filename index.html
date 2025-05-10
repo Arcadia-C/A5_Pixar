@@ -603,5 +603,56 @@
           // });
         });
     </script>
-  </body>
+
+      <h1>Pixar Visualization Writeup</h1>
+
+      <h2>Introduction</h2>
+      <p>This project explores the evolution of Pixar films over time, examining whether there has been a decline in their quality, popularity, or cultural impact. 
+        The motivation for this study is the widespread perception that Pixar's early films were superior to their more recent releases. 
+        We aim to explore this perception by visualizing key metrics of Pixar movies, such as box office revenue, audience reception, critical acclaim, and originality, 
+        and providing users with an interactive interface to draw their own conclusions.</p>
+
+      <h2>Related Work</h2>
+      <p>Prior studies on film industry trends have focused on various factors like box office earnings, critical ratings, 
+        and audience reviews to analyze the performance and impact of movies over time. Existing visualizations of 
+        movie data often use static charts, but our approach adds a dynamic, user-interactive element that allows 
+        users to explore individual movies and their associated metrics in greater detail.</p>
+
+      <h2>Methodology</h2>
+      <p>We used a dataset of Pixar movies containing key attributes such as movie title, release year, 
+        total worldwide gross sales, director, genre, rating, Rotten Tomatoes score, and a YouTube trailer link. 
+        The data was cleaned and processed using D3.js, where monetary values were converted to numeric format for accurate plotting. 
+        We designed a bar chart that displays each movie’s total worldwide gross revenue, with user interactions allowing for 
+        the expansion of bars to reveal detailed information about each movie.</p>
+
+      <h2>Design</h2>
+      <p>We chose a bar chart because it effectively communicates the comparative performance of movies over time. 
+        We added interaction features, allowing users to click on a bar to see detailed information about the selected movie, 
+        including a trailer video, director, genre, and critical ratings. This design enhances user engagement and 
+        provides contextual insights.</p>
+
+      <h2>Implementation</h2>
+      <p>The visualization was built using D3.js for data binding and interaction management, with HTML and CSS for layout 
+        and styling. We leveraged D3’s data-driven approach to create dynamic elements, enabling smooth transitions for 
+        expanding and collapsing bars. The interactive design was further enhanced with tooltips that display detailed movie information. 
+        Performance was optimized by using event delegation and limiting DOM updates during user interactions.</p>
+
+      <h2>Discussion</h2>
+      <p>The final visualization effectively highlights the differences in box office performance among Pixar movies 
+        and provides an engaging way for users to explore detailed information about each film. Audience feedback was positive, 
+        with users appreciating the ability to quickly access details without leaving the visualization. However, some users 
+        found the expanding bar interaction confusing at first, suggesting a need for clearer visual cues. The system enables 
+        users to easily identify trends in Pixar's movie performance and gain insights into the potential decline in quality over time.</p>
+
+      <h2>Future Work</h2>
+      <p>We plan to enhance the visualization by adding user-adjustable weighting for different metrics (box office, 
+        critical ratings, originality, etc.), allowing users to explore different interpretations of movie quality. 
+        Additionally, incorporating comparison data for other animation studios, such as DreamWorks, could provide 
+        broader industry context.</p>
+
+      <h2>Acknowledgements</h2>
+      <p>This project was built using D3.js and JavaScript. The data was sourced from the Pixar movie dataset, 
+        and additional support was provided through guidance and feedback from peers.</p>
+
+    </body>
 </html>
