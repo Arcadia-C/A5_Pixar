@@ -71,7 +71,7 @@
       }
 
       #openingWeight::-webkit-slider-runnable-track {
-        background: green;
+        background: lightgreen;
       }
 
       #rottenWeight::-webkit-slider-runnable-track {
@@ -509,11 +509,21 @@
                   max-height: 580px; /* same as chart height minus some padding */
                   overflow-y: auto; /* vertical scroll if content is taller */
                 "
-              ></div>
+              >
+                <div id="pie-chart" style="margin-top: 20px;"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div style="margin-bottom: 15px;">
+                  <label>Sort By:</label>
+                  <select id="sort-method">
+                    <option value="Chronological">Chronological</option>
+                    <option value="ByMagicScore">By Magic Score</option>
+                  </select>
+      </div>
+
       <h3>You Decide: What Makes a Great Pixar Movie?</h3>
       <p>
         This interactive chart invites you to define what you believe makes a Pixar movie truly magical.

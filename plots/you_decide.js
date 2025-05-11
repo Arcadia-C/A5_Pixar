@@ -2,11 +2,13 @@
 
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+let currentSort = "Chronological";
+
 (function () {
   // Color assignment for each metric
   const colors = {
     boxOffice: d3.color("green"),
-    openingWeekend: d3.color("green"),
+    openingWeekend: d3.color("lightgreen"),
     rottenTomatoes: d3.color("red"),
     imdb: d3.color("yellow"),
     metacritic: d3.color("orange"),
@@ -31,7 +33,9 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
     preprocessData(moviesData, awardsData); // clean the data
     setupSliders(moviesData); // build the sliders
     renderBarChart(moviesData); // draw the chart
+    renderPieChart();
   });
+
   const CPI = {
     startYear: 1995,
     endYear: 2025,
@@ -39,12 +43,208 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
     endVal: 320, // March-2025 CPI  ➜  “today’s dollars”
     todayVal: 320,
   };
+
+function renderPieChart() {
+    console.log("Rendering Pie Chart...");
+
+    // Ensure the #pie-chart div exists
+    if (d3.select("#pie-chart").empty()) {
+      d3.select("#you-decide-controls")
+        .append("div")
+        .attr("id", "pie-chart")
+        .style("margin-top", "20px")
+        .style("width", "300px")
+        .style("height", "300px");
+    }
+
+    const width = 200, height = 200;
+    const radius = 100;
+
+    // Ensure the SVG and G group exist and are properly centered
+    const svg = d3.select("#pie-chart")
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    svg.append("g")
+      .attr("class", "pie-group")
+      .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+    // Draw initial pie chart
+    updatePieChart();
+  }
+
+  // Initial pie chart
+  renderPieChart();
+
+  // Update the pie chart when sliders are adjusted
+  d3.selectAll("input[type='range']").on("input", function() {
+    const id = this.id;
+    const value = +this.value;
+
+    switch (id) {
+      case "boxWeight": weightBoxOffice = value; break;
+      case "openingWeight": weightOpening = value; break;
+      case "rottenWeight": weightRotten = value; break;
+      case "imdbWeight": weightIMDB = value; break;
+      case "metacriticWeight": weightMetacritic = value; break;
+      case "originalityWeight": weightOriginality = value; break;
+      case "awardsWeight": weightAwards = value; break;
+    }
+
+    updatePieChart();
+  });
+
+  // Smoothly Update the Pie Chart
+  function updatePieChart() {
+    console.log("Updating Pie Chart...");
+    
+    const svg = d3.select("#pie-chart svg .pie-group");
+    const radius = 100;
+
+    const totalWeight = weightBoxOffice + weightOpening + weightRotten +
+                        weightIMDB + weightMetacritic + weightOriginality + weightAwards;
+
+    const pieData = [
+      { name: "Box Office", value: weightBoxOffice / totalWeight, color: "green" },
+      { name: "Opening Weekend", value: weightOpening / totalWeight, color: "lightgreen" },
+      { name: "Rotten Tomatoes", value: weightRotten / totalWeight, color: "red" },
+      { name: "IMDB", value: weightIMDB / totalWeight, color: "yellow" },
+      { name: "Metacritic", value: weightMetacritic / totalWeight, color: "orange" },
+      { name: "Originality", value: weightOriginality / totalWeight, color: "purple" },
+      { name: "Awards", value: weightAwards / totalWeight, color: "blue" }
+    ];
+
+    const pie = d3.pie().sort(null).value(d => d.value);
+    const arc = d3.arc().innerRadius(0).outerRadius(radius);
+
+    const paths = svg.selectAll("path")
+      .data(pie(pieData), d => d.data.name);
+
+    // Update existing slices with smooth transition
+    paths
+      .transition()
+      .duration(600)
+      .attrTween("d", function(d) {
+        const interpolate = d3.interpolate(this._current || d, d);
+        this._current = interpolate(1);
+        return t => arc(interpolate(t));
+      });
+
+    // Enter new slices
+    paths.enter()
+      .append("path")
+      .attr("fill", d => d.data.color)
+      .each(function(d) { this._current = d; }) // Store initial state
+      .attr("d", arc);
+
+    // Remove old slices
+    paths.exit().remove();
+
+    // Add labels
+    const text = svg.selectAll("text").data(pie(pieData), d => d.data.name);
+
+    text.enter()
+      .append("text")
+      .attr("transform", d => `translate(${arc.centroid(d)})`)
+      .attr("dy", "0.35em")
+      .attr("text-anchor", "middle")
+      .attr("font-size", "10px")
+      .attr("fill", "white")
+      .attr("stroke", "black")
+      .attr("stroke-width", 1)
+      .attr("paint-order", "stroke")
+      .text(d => d.data.name);
+
+    text.transition()
+      .duration(600)
+      .attr("transform", d => `translate(${arc.centroid(d)})`)
+      .text(d => d.data.name);
+
+    text.exit().remove();
+    
+    console.log("Pie Chart Smoothly Updated.");
+  }
+
+  // Initial pie chart render
+  renderPieChart();
+
+  // Update the pie chart when sliders are adjusted
+  d3.selectAll("input[type='range']").on("input", function() {
+    const id = this.id;
+    const value = +this.value;
+
+    switch (id) {
+      case "boxWeight": weightBoxOffice = value; break;
+      case "openingWeight": weightOpening = value; break;
+      case "rottenWeight": weightRotten = value; break;
+      case "imdbWeight": weightIMDB = value; break;
+      case "metacriticWeight": weightMetacritic = value; break;
+      case "originalityWeight": weightOriginality = value; break;
+      case "awardsWeight": weightAwards = value; break;
+    }
+
+    updatePieChart();
+  });
+
+  // Update the pie chart when sliders are adjusted
+  d3.selectAll("input[type='range']").on("input", function() {
+    const id = this.id;
+    const value = +this.value;
+
+    switch (id) {
+      case "boxWeight": weightBoxOffice = value; break;
+      case "openingWeight": weightOpening = value; break;
+      case "rottenWeight": weightRotten = value; break;
+      case "imdbWeight": weightIMDB = value; break;
+      case "metacriticWeight": weightMetacritic = value; break;
+      case "originalityWeight": weightOriginality = value; break;
+      case "awardsWeight": weightAwards = value; break;
+    }
+
+    updatePieChart();
+  });
+
+  function updateChart() {
+    console.log("UpdateChart function called. Current Sort:", currentSort);
+    // Get the sorted data based on the dropdown selection
+    const sortedData = bars.data().sort((a, b) => {
+      if (currentSort === "ByMagicScore") {
+        return computeMagicScore(b) - computeMagicScore(a);
+      } else {
+        return a.year_released - b.year_released;
+      }
+    });
+
+    // Update the x-axis domain with the new sorted order
+    x.domain(sortedData.map(d => d.movie));
+
+    // Re-bind the sorted data to the bars
+    bars
+      .data(sortedData, (d) => d.movie)
+      .transition()
+      .duration(800)
+      .attr("x", (d) => x(d.movie)) // Reposition based on the new x position
+      .attr("y", (d) => y(computeMagicScore(d)))
+      .attr("height", (d) => y(0) - y(computeMagicScore(d)))
+      .attr("fill", (d) => computeBarColor());
+
+    // Update the x-axis to match the new order
+    svg.select(".x-axis")
+      .transition()
+      .duration(800)
+      .call(d3.axisBottom(x).tickFormat((d) => d));
+
+    updatePieChart();
+  }
+
   function estCPI(year) {
     if (year <= CPI.startYear) return CPI.startVal;
     if (year >= CPI.endYear) return CPI.endVal;
     const slope = (CPI.endVal - CPI.startVal) / (CPI.endYear - CPI.startYear);
     return CPI.startVal + slope * (year - CPI.startYear);
   }
+
   // Compute Originality and Awards Scores
   function preprocessData(moviesData, awardsData) {
     const knownSequels = [
@@ -326,7 +526,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
         tooltipLocked = true;
 
         const bar = d3.select(this);
-        const expandedX = +bar.attr("data-orig-x");
+        const expandedX = x(d.movie);
         const expandedWidth = x.bandwidth() + 300;
         const expandedHeight = 400;
         const expandedY =
@@ -621,12 +821,21 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
     );
   }
 
-  function updateChart() {
-    bars
-      .transition()
-      .duration(500)
-      .attr("y", (d) => y(computeMagicScore(d)))
-      .attr("height", (d) => y(0) - y(computeMagicScore(d)))
-      .attr("fill", (d) => computeBarColor());
-  }
+
+    // Add event listener for dropdown (ENSURE THIS IS AT THE END)
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdown = document.querySelector("#sort-method");
+    if (!dropdown) {
+      console.error("Dropdown #sort-method not found.");
+      return;
+    }
+
+    // Attach event listener for dropdown change
+    dropdown.addEventListener("change", function () {
+      currentSort = this.value;
+      console.log("Dropdown changed to:", currentSort); // Debugging line
+      updateChart();
+    });
+  });
+
 })();
