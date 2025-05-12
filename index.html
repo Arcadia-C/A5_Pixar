@@ -495,6 +495,16 @@
           <div id="audience-chart"></div>
         </div>
 
+        <!-- Sequels Performance Decline - Return on Magic Section -->
+        <div class="hover-bar" id="revealReturnOnMagic">The Sequel Curse?</div>
+        <div id="visualization-wrapper-returnOnMagic" class="viz-wrapper">
+        <div id="return-on-magic-container">
+          <div id="return-on-magic-controls"></div>
+          <div id="return-on-magic-chart"></div>
+          <div id="insight-text"></div>
+        </div>
+        </div>
+
         <!-- You Decide Section -->
         <div class="hover-bar" id="revealYouDecide">You Decide</div>
         <div id="visualization-wrapper-youdecide" class="viz-wrapper">
@@ -558,6 +568,7 @@
     <script type="module" src="plots/pixar_dreamworks.js"></script>
     <script type="module" src="plots/timeline.js"></script>
     <script type="module" src="plots/audience_reception.js"></script>
+    <script type="module" src="plots/sequel_performance.js"></script>
 
     <div
       id="tooltip"
@@ -593,6 +604,7 @@
         toggleReveal("revealOriginality", "visualization-wrapper-originality");
         toggleReveal("revealYouDecide", "visualization-wrapper-youdecide");
         toggleReveal("revealCritical", "visualization-wrapper-critical");
+        toggleReveal("revealReturnOnMagic", "visualization-wrapper-returnOnMagic");
         toggleReveal("revealAudience", "visualization-wrapper-audience");
       });
       document
