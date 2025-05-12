@@ -124,18 +124,19 @@
       bottom: 50px;
       left: 0;
       right: 0;
-      height: 4px;
-      background-color: #0061d5;
+      height: 2px;
+      background-color: #ffffff;
       border-radius: 2px;
     }
     
     .timeline-marker {
       position: absolute;
       bottom: 50px;
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      background-color: #ddd;
+      background-color: transparent;
+      border: 2px solid white;
       transform: translate(-50%, -50%);
     }
     
@@ -145,43 +146,60 @@
       transform: translateX(-50%);
       text-align: center;
       font-size: 12px;
-      color: #666;
+      color: white;
     }
     
     .cursor {
       position: absolute;
       bottom: 50px;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      background-color: #ff5722;
+      background-color: white;
       transform: translate(-50%, -50%);
       z-index: 100;
-      box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.3);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 5px #fff;
+      animation: pulse 1.5s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 5px #fff; }
+      100% { box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 10px #fff; }
+    }
+    
+    .animation-line {
+      position: absolute;
+      bottom: 50px;
+      height: 2px;
+      background-color: white;
+      left: 30px;
+      width: 0px;
+      z-index: 50;
     }
     
     .milestone-label {
       position: absolute;
       bottom: 300px;
       width: 300px;
-      background-color: #ffffff;
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 15px;
       border-radius: 8px;
       font-size: 16px;
+      color: white;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       opacity: 0;
       transform: translateX(-50%);
       transition: opacity 0.5s ease;
       pointer-events: none;
       z-index: 50;
-      border-left: 5px solid #ff5722;
+      border-left: 5px solid white;
     }
     
     .milestone-title {
       font-weight: bold;
       font-size: 18px;
       margin-bottom: 8px;
-      color: #0061d5;
+      color: white;
     }
     
     /* Rectangular cards with character images and titles */
@@ -274,20 +292,7 @@
       text-align: center;
     }
     
-    .controls button {
-      padding: 8px 16px;
-      background-color: #0061d5;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      margin: 0 5px;
-      font-family: 'Montserrat', sans-serif;
-    }
-    
-    .controls button:hover {
-      background-color: #0052b3;
-    }
+    /* Button styles moved to styles.css */
     
     .tooltip {
       position: absolute;

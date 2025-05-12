@@ -261,8 +261,35 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTimeline();
 
     // Add event listeners for controls
-    document.getElementById('start-animation').addEventListener('click', startAnimation);
-    document.getElementById('reset-animation').addEventListener('click', resetAnimation);
+    const startButton = document.getElementById('start-animation');
+    const resetButton = document.getElementById('reset-animation');
+    
+    // Style buttons with white outline, hollow style
+    [startButton, resetButton].forEach(button => {
+        button.style.background = 'transparent';
+        button.style.color = 'white';
+        button.style.border = '2px solid white';
+        button.style.padding = '8px 16px';
+        button.style.borderRadius = '4px';
+        button.style.cursor = 'pointer';
+        button.style.transition = 'all 0.3s ease';
+        button.style.margin = '0 5px';
+        button.style.fontFamily = '"Futura", sans-serif';
+        
+        // Add hover effect
+        button.addEventListener('mouseenter', function() {
+            this.style.background = 'white';
+            this.style.color = 'black';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.background = 'transparent';
+            this.style.color = 'white';
+        });
+    });
+    
+    startButton.addEventListener('click', startAnimation);
+    resetButton.addEventListener('click', resetAnimation);
 
     // Preload images and set fallbacks
     preloadImages();
@@ -286,6 +313,7 @@ let timeScale, tooltip, cursor;
 let currentYear = timelineConfig.startYear;
 let animationInProgress = false;
 let visibleCards = [];
+let timelineMarkers = []; // Store references to timeline markers
 
 function initializeTimeline() {
     const timelineWrapper = d3.select('.timeline-wrapper');
@@ -303,37 +331,57 @@ function initializeTimeline() {
         years.push(year);
     }
 
+    // Style the timeline
+    d3.select('.timeline')
+        .style('background-color', '#ffffff')
+        .style('height', '2px'); // Thinner line for more elegant look
+
     // Create and position year markers and labels
     years.forEach(year => {
-        // Only add a visual marker for every year
-        timelineWrapper.append('div')
-        .attr('class', 'timeline-marker')
-        .style('left', `${timeScale(year)}px`);
+        // Only add a visual marker for every year - make them hollow with white outline
+        const marker = timelineWrapper.append('div')
+            .attr('class', 'timeline-marker')
+            .attr('id', `marker-${year}`)
+            .style('left', `${timeScale(year)}px`)
+            .style('background-color', 'transparent') // Hollow
+            .style('border', '2px solid white') // White outline
+            .style('width', '10px') // Slightly smaller
+            .style('height', '10px')
+            .style('transform', 'translate(-50%, -50%)');
+        
+        // Store reference to marker
+        timelineMarkers.push({year: year, element: marker});
         
         // To prevent overcrowding, only add a label for every 3rd year
         if (year % 3 === 0 || year === timelineConfig.startYear || year === timelineConfig.endYear) {
-        timelineWrapper.append('div')
-            .attr('class', 'timeline-label')
-            .style('left', `${timeScale(year)}px`)
-            .text(year);
+            timelineWrapper.append('div')
+                .attr('class', 'timeline-label')
+                .style('left', `${timeScale(year)}px`)
+                .style('color', 'white') // Ensure white text
+                .text(year);
         }
     });
 
     // Add milestone labels (initially hidden)
     milestones.forEach(milestone => {
         timelineWrapper.append('div')
-        .attr('class', 'milestone-label')
-        .attr('id', `milestone-${milestone.year}`)
-        .style('left', `${timeScale(milestone.year)}px`)
-        .html(`
-            <div class="milestone-title">${milestone.title} (${milestone.year})</div>
-            <div>${milestone.description}</div>
-        `);
+            .attr('class', 'milestone-label')
+            .attr('id', `milestone-${milestone.year}`)
+            .style('left', `${timeScale(milestone.year)}px`)
+            .style('color', 'white') // Ensure text is white
+            .style('background-color', 'rgba(0, 0, 0, 0.8)') // Dark background with slight transparency
+            .style('border-left', '5px solid white') // White accent instead of colored
+            .html(`
+                <div class="milestone-title" style="color: white;">${milestone.title} (${milestone.year})</div>
+                <div>${milestone.description}</div>
+            `);
     });
 
     // Initialize cursor
     cursor = d3.select('.cursor')
         .style('left', `${timeScale(timelineConfig.startYear)}px`);
+
+    // No cursor initialization needed as we're using the animation line instead
 
     // Create tooltip
     tooltip = d3.select('.tooltip');
@@ -359,6 +407,13 @@ function resetAnimation() {
     // Reset cursor and year
     currentYear = timelineConfig.startYear;
     cursor.style('left', `${timeScale(currentYear)}px`);
+    
+    // Reset all markers to hollow
+    timelineMarkers.forEach(marker => {
+        marker.element
+            .style('background-color', 'transparent')
+            .style('border', '2px solid white');
+    });
 
     // Update year display
     document.getElementById('current-year').textContent = currentYear;
@@ -385,97 +440,107 @@ function animateToNextYear() {
 }
 
 function animateCursorSmoothly() {
-// Get all the years we need to pass through
-const yearsToAnimate = [];
-for (let year = timelineConfig.startYear + 1; year <= timelineConfig.endYear; year++) {
-    yearsToAnimate.push(year);
-}
+    // Get all the years we need to pass through
+    const yearsToAnimate = [];
+    for (let year = timelineConfig.startYear + 1; year <= timelineConfig.endYear; year++) {
+        yearsToAnimate.push(year);
+    }
 
-// Set up the total animation duration - faster overall with slowdowns at milestones
-const totalDuration = yearsToAnimate.length * timelineConfig.normalSpeed * 0.7;
-const startPosition = timeScale(timelineConfig.startYear);
-const endPosition = timeScale(timelineConfig.endYear);
-const startTime = Date.now();
+    // Set up the total animation duration - faster overall with slowdowns at milestones
+    const totalDuration = yearsToAnimate.length * timelineConfig.normalSpeed * 0.7;
+    const startPosition = timeScale(timelineConfig.startYear);
+    const endPosition = timeScale(timelineConfig.endYear);
+    const startTime = Date.now();
 
-// Function to check where the cursor should be at a given time
-function updateCursorPosition() {
-    if (!animationInProgress) return;
-    
-    const elapsedTime = Date.now() - startTime;
-    const progress = Math.min(elapsedTime / totalDuration, 1);
-    
-    // Smooth out the progress with an easing function
-    let easedProgress = progress;
-    
-    // Apply slowdown effect near milestone years
-    const milestoneYears = milestones.map(m => m.year);
-    milestoneYears.forEach(milestoneYear => {
-    const milestonePosition = (milestoneYear - timelineConfig.startYear) / 
-                                (timelineConfig.endYear - timelineConfig.startYear);
-    
-    // If we're approaching a milestone (within 10% of timeline), slow down
-    const distance = Math.abs(progress - milestonePosition);
-    if (distance < 0.1) {
-        // Apply slowdown factor - more slowdown closer to the milestone
-        const slowdownFactor = 1 - (0.1 - distance) * 5;
-        easedProgress = easedProgress * slowdownFactor + milestonePosition * (1 - slowdownFactor);
-    }
-    });
-    
-    // Calculate new cursor position
-    const newPosition = startPosition + (endPosition - startPosition) * easedProgress;
-    cursor.style('transition', 'none')
-        .style('left', `${newPosition}px`);
-    
-    // Find the current year based on position
-    const currentPos = newPosition;
-    let newYear = timelineConfig.startYear;
-    
-    for (let y = timelineConfig.startYear; y <= timelineConfig.endYear; y++) {
-    if (currentPos >= timeScale(y)) {
-        newYear = y;
-    } else {
-        break;
-    }
-    }
-    
-    // If we moved to a new year, update year display and show films
-    if (newYear > currentYear) {
-    // Find films for each year we passed
-    for (let y = currentYear + 1; y <= newYear; y++) {
-        document.getElementById('current-year').textContent = y;
-        const filmsThisYear = pixarFilms.filter(film => film.year === y);
-        addFilmCards(filmsThisYear, y);
+    // Function to update the cursor position
+    function updateCursorPosition() {
+        if (!animationInProgress) return;
         
-        // Check for milestone
-        if (milestones.some(m => m.year === y)) {
-        const milestoneLabel = d3.select(`#milestone-${y}`);
-        milestoneLabel.classed('visible', true);
+        const elapsedTime = Date.now() - startTime;
+        const progress = Math.min(elapsedTime / totalDuration, 1);
         
-        // Hide the milestone label after a delay
-        setTimeout(() => {
-            milestoneLabel.classed('visible', false);
-        }, timelineConfig.milestoneDisplayTime);
+        // Smooth out the progress with an easing function
+        let easedProgress = progress;
+        
+        // Apply slowdown effect near milestone years
+        const milestoneYears = milestones.map(m => m.year);
+        milestoneYears.forEach(milestoneYear => {
+            const milestonePosition = (milestoneYear - timelineConfig.startYear) / 
+                                    (timelineConfig.endYear - timelineConfig.startYear);
+            
+            // If we're approaching a milestone (within 10% of timeline), slow down
+            const distance = Math.abs(progress - milestonePosition);
+            if (distance < 0.1) {
+                // Apply slowdown factor - more slowdown closer to the milestone
+                const slowdownFactor = 1 - (0.1 - distance) * 5;
+                easedProgress = easedProgress * slowdownFactor + milestonePosition * (1 - slowdownFactor);
+            }
+        });
+        
+        // Calculate new cursor position
+        const newPosition = startPosition + (endPosition - startPosition) * easedProgress;
+        cursor.style('transition', 'none')
+            .style('left', `${newPosition}px`);
+        
+        // Find the current year based on position
+        const currentPos = newPosition;
+        let newYear = timelineConfig.startYear;
+        
+        // Fill markers as the cursor passes them
+        for (let y = timelineConfig.startYear; y <= timelineConfig.endYear; y++) {
+            const markerPosition = timeScale(y);
+            
+            // If the cursor has passed this marker
+            if (newPosition >= markerPosition) {
+                newYear = y;
+                
+                // Fill the marker with white
+                const marker = d3.select(`#marker-${y}`);
+                marker
+                    .style('background-color', 'white')
+                    .style('transition', 'background-color 0.3s ease');
+            } else {
+                break;
+            }
+        }
+        
+        // If we moved to a new year, update year display and show films
+        if (newYear > currentYear) {
+            // Find films for each year we passed
+            for (let y = currentYear + 1; y <= newYear; y++) {
+                document.getElementById('current-year').textContent = y;
+                const filmsThisYear = pixarFilms.filter(film => film.year === y);
+                addFilmCards(filmsThisYear, y);
+                
+                // Check for milestone
+                if (milestones.some(m => m.year === y)) {
+                    const milestoneLabel = d3.select(`#milestone-${y}`);
+                    milestoneLabel.classed('visible', true);
+                    
+                    // Hide the milestone label after a delay
+                    setTimeout(() => {
+                        milestoneLabel.classed('visible', false);
+                    }, timelineConfig.milestoneDisplayTime);
+                }
+            }
+            
+            // Update existing cards
+            updateExistingCards();
+            
+            // Update current year
+            currentYear = newYear;
+        }
+        
+        // Continue animation if not complete
+        if (progress < 1) {
+            requestAnimationFrame(updateCursorPosition);
+        } else {
+            animationInProgress = false;
         }
     }
-    
-    // Update existing cards
-    updateExistingCards();
-    
-    // Update current year
-    currentYear = newYear;
-    }
-    
-    // Continue animation if not complete
-    if (progress < 1) {
-    requestAnimationFrame(updateCursorPosition);
-    } else {
-    animationInProgress = false;
-    }
-}
 
-// Start the animation loop
-requestAnimationFrame(updateCursorPosition);
+    // Start the animation loop
+    requestAnimationFrame(updateCursorPosition);
 }
 
 function addFilmCards(films, year) {
