@@ -641,11 +641,17 @@
         users to explore individual movies and their associated metrics in greater detail.</p>
 
       <h2>Methodology</h2>
-      <p>We used a dataset of Pixar movies containing key attributes such as movie title, release year, 
-        total worldwide gross sales, director, genre, rating, Rotten Tomatoes score, and a YouTube trailer link. 
-        The data was cleaned and processed using D3.js, where monetary values were converted to numeric format for accurate plotting. 
-        We designed a bar chart that displays each movie’s total worldwide gross revenue, with user interactions allowing for 
-        the expansion of bars to reveal detailed information about each movie.</p>
+      <p>We used a dataset of Pixar movies compiled from publicly available sources, including Box Office Mojo, Rotten Tomatoes, and IMDb. 
+        The dataset includes attributes such as movie title, release year, director, worldwide gross revenue, critic and audience scores, 
+        MPAA rating, and a link to each movie’s trailer on YouTube. After collecting the data, we cleaned it using Python and manual validation,
+        standardizing monetary values to USD and converting scores to a uniform 0–100 scale. Categorical variables like genre and director 
+        were normalized to ensure consistency in the display.
+
+        In D3.js, we loaded the dataset as a CSV and used JavaScript functions to parse and structure the data for rendering. We also included 
+        derived fields, such as inflation-adjusted revenue. These allowed us to group and filter data more effectively, enabling richer 
+        visual exploration. We experimented with different types of visual encodings—such as scatterplots and line charts—but ultimately chose a vertical bar 
+        chart for its simplicity and clarity. 
+        </p>
 
       <h2>Design</h2>
       <p>We chose a bar chart because it effectively communicates the comparative performance of movies over time. 
@@ -654,23 +660,46 @@
         provides contextual insights.</p>
 
       <h2>Implementation</h2>
-      <p>The visualization was built using D3.js for data binding and interaction management, with HTML and CSS for layout 
-        and styling. We leveraged D3’s data-driven approach to create dynamic elements, enabling smooth transitions for 
-        expanding and collapsing bars. The interactive design was further enhanced with tooltips that display detailed movie information. 
-        Performance was optimized by using event delegation and limiting DOM updates during user interactions.</p>
+      <p>The project was implemented using D3.js (version 7), with support from auxiliary libraries like d3-tip for tooltips and 
+        d3-transition for animation control. The visualization structure was built using standard HTML and styled with modular CSS 
+        to keep the layout responsive. For mobile compatibility and accessibility, we also ensured the chart resized dynamically 
+        with viewport changes.
+
+        To make interactions seamless, we used D3’s enter-update-exit pattern, enabling smooth animations as users interacted with 
+        elements. Each bar in the chart is clickable, triggering a transition to expand and reveal metadata about the movie, including 
+        an embedded trailer using an iframe. We cached video URLs and precomputed movie metrics to avoid runtime lookups and delays.
+        
+        Performance tuning was essential, particularly for animations and resizing. We minimized DOM manipulation by reusing elements 
+        wherever possible and avoided re-rendering unchanged components. Event delegation was applied at the SVG container level to 
+        reduce the overhead of attaching listeners to each individual bar. Additionally, lazy loading was used for trailer videos to 
+        prevent unnecessary iframe overhead during initial page load.</p>
 
       <h2>Discussion</h2>
-      <p>The final visualization effectively highlights the differences in box office performance among Pixar movies 
-        and provides an engaging way for users to explore detailed information about each film. Audience feedback was positive, 
-        with users appreciating the ability to quickly access details without leaving the visualization. However, some users 
-        found the expanding bar interaction confusing at first, suggesting a need for clearer visual cues. The system enables 
-        users to easily identify trends in Pixar's movie performance and gain insights into the potential decline in quality over time.</p>
+      <p>The final visualization succeeds in offering both high-level trends and detailed per-movie information in an accessible interface. 
+        The bar chart allows users to quickly scan for outliers—such as major box office hits like Incredibles 2 or underperformers like 
+        Onward—while the expandable view provides depth without overwhelming the initial layout. Users appreciated the compactness of the 
+        design and the immediate payoff when clicking on a movie.
+
+        Some challenges were observed in initial user testing. A few participants were unsure how to interact with the chart until prompted, 
+        particularly when it came to expanding a bar. This suggests that clearer affordances, like hover hints or onboarding instructions, could 
+        improve first-time user experience. Additionally, there was some interest in adding sorting or filtering options, especially by rating 
+        or director.
+        
+        Despite these minor usability issues, users consistently reported that the visualization helped them understand Pixar’s trajectory 
+        over time. It sparked reflection on how the studio's creative direction may have shifted and which metrics—such as originality or 
+        critical acclaim—might carry more weight in evaluating artistic success.</p>
 
       <h2>Future Work</h2>
       <p>We plan to enhance the visualization by adding user-adjustable weighting for different metrics (box office, 
         critical ratings, originality, etc.), allowing users to explore different interpretations of movie quality. 
         Additionally, incorporating comparison data for other animation studios, such as DreamWorks, could provide 
-        broader industry context.</p>
+        broader industry context.
+
+        Another planned enhancement is the addition of filtering and sorting capabilities. In a later version, users choose 
+        to view only films within a certain revenue bracket, time period, or directorial era, which would improve the exploratory 
+        potential of the interface. A timeline view or animation that illustrates how Pixar’s output evolved chronologically 
+        is also under consideration, as it would add temporal clarity to user insights.
+      </p>
 
       <h2>Acknowledgements</h2>
       <p>This project was built using D3.js and JavaScript. The data was sourced from the Pixar movie dataset, 
