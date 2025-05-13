@@ -49,13 +49,13 @@
 
       @keyframes bounce {
         0%, 20%, 50%, 80%, 100% { 
-            transform: translateX(-50%) translateY(0); 
+            transform: translateY(0); 
         }
         40% { 
-            transform: translateX(-50%) translateY(-10px); 
+            transform: translateY(-10px); 
         }
         60% { 
-            transform: translateX(-50%) translateY(-5px); 
+            transform: translateY(-5px); 
         }
       }
 
@@ -361,6 +361,14 @@
       font-weight: bold;
       margin-bottom: 15px;
     }
+
+    .subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: rgba(255,255,255,0.8);
+      animation: fadeInUp 1s ease 1s forwards;
+      margin-left: auto;
+      margin-right: auto;
+    }
     </style>
   </head>
 
@@ -368,10 +376,10 @@
     <div class="content">
       <div class="landing-section">
         <h1>Has Pixar Lost Its Magic?</h1>
-        <h3>
+        <p class="subtitle">
           Exploring the Evolution of Pixar Films and the Changing Landscape of
           Animated Storytelling.
-        </h3>
+        </p>
       <div class="container" style="margin-top: 2vh;">
         <div class="year-display">Year: <span id="current-year">1994</span></div>
         
@@ -476,11 +484,19 @@
         <div id="visualization-wrapper-boxoffice" class="viz-wrapper">
           <div id="visualization"></div>
         </div>
+        <div class="insight-panel">
+          <h2>The Financial Evolution</h2>
+          <p>The data reveals a stark financial pattern: Pixar's box office performance peaked with sequels like Incredibles 2 and Finding Dory, while original films have shown more modest returns. This commercial pressure may be influencing creative decisions, pushing the studio toward safer, franchise-based projects.</p>
+        </div>
 
         <!-- Originality Section -->
         <div class="hover-bar" id="revealOriginality">Originality</div>
         <div id="visualization-wrapper-originality" class="viz-wrapper">
           <div id="originality"></div>
+        </div>
+        <div class="insight-panel">
+          <h2>The Originality Decline</h2>
+          <p>After 2010, a clear shift emerged: sequels multiplied while original stories became increasingly rare. This transformation raises fundamental questions about the balance between creative risk-taking and commercial certainty. Has Pixar's acquisition by Disney accelerated this trend toward franchise expansion?</p>
         </div>
 
         <!-- Critical Reception Section -->
@@ -544,11 +560,19 @@
           />
           <label for="adaptedScreenplay">Adapted Screenplay</label>
         </div>
+        <div class="insight-panel">
+          <h2>The Critical Perspective</h2>
+          <p>Critical acclaim for Pixar has fluctuated over time, with early films like Toy Story and The Incredibles setting a high bar. Recent years show a more mixed reception, with some films receiving widespread acclaim (Soul, Inside Out) while others face more tepid responses. This suggests quality variation rather than consistent decline.</p>
+        </div>
 
         <!-- Audience Reception Section -->
         <div class="hover-bar" id="revealAudience">Audience Reception</div>
         <div id="visualization-wrapper-audience" class="viz-wrapper">
           <div id="audience-chart"></div>
+        </div>
+        <div class="insight-panel">
+          <h2>The Audience Connection</h2>
+          <p>Audience reception reveals a fascinating pattern: while general audiences remain largely positive about Pixar films, there's a growing disconnect between critical and public opinion. This suggests that Pixar may be prioritizing broad appeal over the nuanced storytelling that once captivated both critics and audiences alike.</p>
         </div>
 
         <!-- Sequels Performance Decline - Return on Magic Section -->
@@ -560,9 +584,13 @@
           <div id="insight-text"></div>
         </div>
         </div>
+        <div class="insight-panel">
+          <h2>The Sequel Strategy</h2>
+          <p>The data exposes a clear trend: Pixar's sequels consistently outperform their predecessors at the box office, yet often receive lower critical ratings. This commercial success may be driving the studio's increasing reliance on established franchises, potentially at the expense of the creative innovation that built their reputation.</p>
+        </div>
 
         <!-- You Decide Section -->
-        <div class="hover-bar" id="revealYouDecide">You Decide</div>
+        <div class="hover-bar" id="revealYouDecide">You Decide: Has Pixar Lost Its Magic?</div>
         <div id="visualization-wrapper-youdecide" class="viz-wrapper">
           <div style="display: flex">
             <div style="display: flex">
@@ -580,6 +608,10 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="insight-panel">
+          <h2>The Transformation Revealed</h2>
+          <p>The data reveals a stark transformation: after 2010, sequels multiplied while originals became rare. This shift raises the fundamental question of our investigation—has this change affected the magic itself? Your weighted analysis provides a personalized perspective on whether Pixar's evolution represents decline or simply transformation.</p>
         </div>
       </div>
       <div style="margin-bottom: 15px;">
