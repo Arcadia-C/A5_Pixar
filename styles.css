@@ -1,3 +1,7 @@
+:root {
+  --dotted-border: 1px dotted rgba(255, 255, 255, 0.5);
+}
+
 /* Base Styles */
 body {
   font-family: 'Playfair Display', serif;
@@ -44,6 +48,13 @@ h3 {
   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent for readability */
   color: white;
 }
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
 .viz-wrapper {
   min-width: 900px;
   overflow-x: auto;
@@ -69,6 +80,37 @@ p {
 ul {
   padding-left: 20px;
   margin-bottom: 30px;
+}
+
+/* Checkbox Styling for Critical Reception */
+#visualization-wrapper-critical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#critical {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 15px 0;
+  gap: 10px;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  margin: 0 8px;
+}
+
+.checkbox-item input[type="checkbox"] {
+  margin-right: 5px;
 }
 
 /* Video Styling */
@@ -118,46 +160,100 @@ ul {
   }
 }
 
+/* Section Styling */
+.section {
+  padding: 60px 0;
+  position: relative;
+}
+
+.section-header {
+  text-align: center;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+  opacity: 0;
+}
+
+.section-text {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 800px;
+  margin: 0 auto;
+  transform: translateY(30px);
+  transition: all 0.8s ease 0.2s;
+  opacity: 0;
+}
+
+.section.in-view .section-title,
+.section.in-view .section-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Visualization Containers */
+.viz-container {
+  background: transparent;
+  border-radius: 15px;
+  padding: 40px;
+  margin: 40px 0;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease 0.5s;
+  border: var(--dotted-border);
+}
+
+.section.in-view .viz-container {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Insight Panel */
 .insight-panel {
   border: 1px dotted rgba(255, 255, 255, 0.5);
   border-radius: 8px;
-  padding: 30px 40px;
-  margin: 40px 0;
+  padding: 25px 30px;
+  margin: 30px auto;
   position: relative;
   background-color: rgba(0, 0, 0, 0.4);
+  max-width: 900px;
+  width: 90%;
+  text-align: center;
 }
 
 .insight-panel::before,
 .insight-panel::after {
   content: '';
   position: absolute;
-  width: 15px;
-  height: 15px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .insight-panel::before {
-  top: -7px;
-  left: -7px;
+  top: -6px;
+  left: -6px;
 }
 
 .insight-panel::after {
-  bottom: -7px;
-  right: -7px;
+  bottom: -6px;
+  right: -6px;
 }
 
 .insight-panel h2 {
-  font-size: 32px;
+  font-size: 1.3rem;
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 7px;
   font-weight: 700;
 }
 
 .insight-panel p {
-  font-size: 18px;
   line-height: 1.6;
   margin-bottom: 0;
 }

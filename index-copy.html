@@ -403,224 +403,91 @@
         <p>The data reveals a stark transformation: after 2010, sequels multiplied while originals became rare. This shift raises the fundamental question of our investigation—has this change affected the magic itself?</p>
       </div>
       
-      <section class="section">
-        <div class="container">
-          <div class="section-header">
-            <h2 class="section-title">Critical Reception</h2>
-            <p class="section-text">Critics have increasingly argued that Pixar's best days are behind them. But is this perception supported by the data?</p>
-          </div>
-          
-          <div class="viz-container">
-            <div id="visualization-wrapper-critical" class="viz-wrapper">
-              <div id="critical"></div>
-              
-              <div class="checkbox-container">
-                <div class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    class="awardCategory"
-                    id="originalScreenplay"
-                    checked
-                  />
-                  <label for="originalScreenplay">Original Screenplay</label>
-                </div>
-                
-                <div class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    class="awardCategory"
-                    id="animatedFeature"
-                    checked
-                  />
-                  <label for="animatedFeature">Animated Feature</label>
-                </div>
-                
-                <div class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    class="awardCategory"
-                    id="originalScore"
-                    checked
-                  />
-                  <label for="originalScore">Original Score</label>
-                </div>
-                
-                <div class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    class="awardCategory"
-                    id="originalSong"
-                    checked
-                  />
-                  <label for="originalSong">Original Song</label>
-                </div>
-                
-                <div class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    class="awardCategory"
-                    id="soundEditing"
-                    checked
-                  />
-                  <label for="soundEditing">Sound Editing</label>
-                </div>
-                
-                <div class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    class="awardCategory"
-                    id="soundMixing"
-                    checked
-                  />
-                  <label for="soundMixing">Sound Mixing</label>
-                </div>
-                
-                <div class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    class="awardCategory"
-                    id="bestPicture"
-                    checked
-                  />
-                  <label for="bestPicture">Best Picture</label>
-                </div>
-                
-                <div class="checkbox-item">
-                  <input
-                    type="checkbox"
-                    class="awardCategory"
-                    id="adaptedScreenplay"
-                    checked
-                  />
-                  <label for="adaptedScreenplay">Adapted Screenplay</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="insight-panel">
-            <h2>The Critical Perspective</h2>
-            <p>Critical acclaim for Pixar has fluctuated over time, with early films like Toy Story and The Incredibles setting a high bar. Recent years show a more mixed reception, with some films receiving widespread acclaim (Soul, Inside Out) while others face more tepid responses. This suggests quality variation rather than consistent decline.</p>
-          </div>
+      <div class="section-header">
+        <h2 class="section-title">Are Critics Right to Worry?</h2>
+        <p class="section-text">Critics have increasingly argued that Pixar's best days are behind them. But is this perception supported by the data?</p>
+      </div>
+      <p>
+        Not so long ago (in 1994 to be exact), on a hot day in California, there
+        were four men having lunch at a frequented spot: The Hidden City Cafe.
+        But this was no ordinary lunch. And they were no ordinary people. They
+        were Pixar's directors and were brainstorming new ideas for their next
+        movies. Given that they were wrapping up production on Toy Story (which
+        would release the following year), they were buzzing with ideas of what
+        to do next. From the small-scaled story of a Bug's Life to the gigantic
+        tale of Monster's Inc, several narratives were born in the fabled "$2
+        Billion Lunch Meeting".
+      </p>
+      <p>
+        The last idea they came up with was WALL-E, which would release in 2008.
+      </p>
+
+      <div class="video-container">
+        <iframe
+          width="700"
+          height="1700"
+          src="https://www.youtube.com/embed/ggV082dBgcY"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        >
+        </iframe>
+      </div>
+
+      <p>
+        But there's a problem when it comes to this teaser trailer: doesn't it
+        seem like everything after WALL-E was an afterthought?
+      </p>
+      <p>
+        Thus, one way to divide the Pixar timeline are "pre-WALL-E" films and
+        "post-WALL-E" films (with the dividing line being at 2008). Many people
+        believe that all the "pre-WALL-E" films are the greatest of Pixar's
+        work, whereas those after it were... well an afterthought (except for
+        maybe the first 15 minutes of Up).
+      </p>
+      <p>
+        But are they right? Is there a way to tell if there is a decline in
+        Pixar films after 2008? Or more generally...
+      </p>
+      <h3>Has perception of Pixar films gotten worse?</h3>
+      <p>
+        To see if this is the case, we will dive into several metrics:
+      </p>
+      <ul>
+        <li>1. Originality</li>
+        <li>2. Box Office Returns</li>
+        <li>3. Audience Reception</li>
+        <li>4. Critical Acclaim</li>
+      </ul>
+      <p>
+        And at the very end, we'll let YOU decide which of these factors are
+        important!
+      </p>
+      <p>
+        But before we get into the Pixar movie metrics, we have another question
+        to address:
+      </p>
+      <h3>Is Pixar's perceived decline unique, or part of broader industry trends?</h3>
+      <p>
+        We could conclude that Pixar films are getting worse, but that doesn't
+        mean much if the general state of cinema is in decline. To mitigate
+        this, some of our metrics will have comparison "baselines" to illustrate
+        what the "standard" value of the metric was at the time.
+      </p>
+      <div class="container">
+        <div class="controls">
+          <label for="window-size">Trend Line Window:</label>
+          <select id="window-size">
+            <option value="3">3 Years</option>
+            <option value="5">5 Years</option>
+            <option value="7">7 Years</option>
+          </select>
         </div>
-      </section>
-      
-      <section class="section">
-        <div class="container">
-          <div class="section-header">
-            <h2 class="section-title">Audience Reception</h2>
-            <p class="section-text">Critics and audiences don't always agree. How has Pixar performed in the court of public opinion?</p>
-          </div>
-          
-          <div class="viz-container">
-            <div id="visualization-wrapper-audience" class="viz-wrapper">
-              <div id="audience-chart"></div>
-            </div>
-          </div>
-          
-          <div class="insight-panel">
-            <h2>The Plot Thickens</h2>
-            <p>Audiences seem more forgiving than critics, consistently rating Pixar films higher even as critical reception varies. This disconnect between professional critics and general viewers raises questions about what truly defines the "magic" of Pixar's storytelling.</p>
-          </div>
-        </div>
-      </section>
-      
-      <section class="section">
-        <div class="container">
-          <div class="section-header">
-            <h2 class="section-title">Industry Comparison</h2>
-            <p class="section-text">Is this decline unique to Pixar, or part of broader industry trends?</p>
-          </div>
-          
-          <div class="viz-container">
-            <div class="controls">
-              <label for="window-size">Trend Line Window:</label>
-              <select id="window-size">
-                <option value="3">3 Years</option>
-                <option value="5">5 Years</option>
-                <option value="7">7 Years</option>
-              </select>
-            </div>
-            
-            <div id="chart-container"></div>
-          </div>
-          
-          <div class="insight-panel">
-            <h2>Industry-Wide Pattern</h2>
-            <p>The comparison reveals this isn't uniquely Pixar's problem—it's an industry pattern. This suggests something deeper: are sequels fundamentally affecting how we perceive quality in animation?</p>
-          </div>
-        </div>
-      </section>
-      
-      <section class="section">
-        <div class="container">
-          <div class="section-header">
-            <h2 class="section-title">The Sequel Curse?</h2>
-            <p class="section-text">Is there something inherent about sequels that makes them inferior? Explore how performance typically changes with each iteration of a franchise—from promising second films to problematic third installments.</p>
-          </div>
-          
-          <div class="viz-container">
-            <div id="visualization-wrapper-returnOnMagic" class="viz-wrapper">
-              <div id="return-on-magic-container">
-                <div id="return-on-magic-controls"></div>
-                <div id="return-on-magic-chart"></div>
-                <div id="insight-text"></div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="insight-panel">
-            <h2>The Pattern Emerges</h2>
-            <p>The pattern is clear but not absolute. While most franchises follow a predictable decline (especially brutal for third films), exceptional cases like Toy Story prove sequels can transcend their originals. This suggests that sequel success isn't just about timing—but about something deeper.</p>
-          </div>
-        </div>
-      </section>
-      
+
+        <div id="chart-container"></div>
+      </div>
+      <br><br />
       <br />
-      
-      <section class="section">
-        <div class="container">
-          <div class="section-header">
-            <h2 class="section-title">Your Turn: What Makes Pixar Magical?</h2>
-            <p class="section-text">Maybe Pixar hasn't lost its magic—the magic itself has evolved. But 'magic' is measured by different metrics. Use the sliders below to define your own version and see how it reshapes the entire narrative.</p>
-          </div>
-          
-          <div class="viz-container">
-            <div id="visualization-wrapper-youdecide" class="viz-wrapper">
-              <div style="display: flex">
-                <div style="display: flex">
-                  <div id="you-decide-viz" style="flex: 3; min-width: 700px"></div>
-                  <div
-                    id="you-decide-controls"
-                    style="
-                      flex: 0 0 300px; /* always 300 px wide */
-                      margin-left: 20px;
-                      max-height: 580px; /* same as chart height minus some padding */
-                      overflow-y: auto; /* vertical scroll if content is taller */
-                    "
-                  >
-                    <div id="pie-chart" style="margin-top: 20px;"></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div style="margin: 15px 0;">
-                <label>Sort By:</label>
-                <select id="sort-method">
-                  <option value="Chronological">Chronological</option>
-                  <option value="ByMagicScore">By Magic Score</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          
-          <div class="insight-panel">
-            <h2>Magic in the Eye of the Beholder</h2>
-            <p>Magic lives in the eye of the beholder. Whether you prioritize innovation, emotion, or impact, Pixar films excel in different ways. The studio hasn't lost its magic—it's distributed it differently across a broader range of stories and experiences.</p>
-          </div>
-        </div>
-      </section>
-      
       <div class="reveal-container">
         <!-- Box Office Section -->
         <div class="hover-bar" id="revealBoxOffice">Box Office</div>
@@ -642,10 +509,135 @@
           <p>After 2010, a clear shift emerged: sequels multiplied while original stories became increasingly rare. This transformation raises fundamental questions about the balance between creative risk-taking and commercial certainty. Has Pixar's acquisition by Disney accelerated this trend toward franchise expansion?</p>
         </div>
 
+        <!-- Critical Reception Section -->
+        <div class="hover-bar" id="revealCritical">Critical Reception</div>
+        <div id="visualization-wrapper-critical" class="viz-wrapper">
+          <div id="critical"></div>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="originalScreenplay"
+            checked
+          />
+          <label for="originalScreenplay">Original Screenplay</label>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="animatedFeature"
+            checked
+          />
+          <label for="animatedFeature">Animated Feature</label>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="originalScore"
+            checked
+          />
+          <label for="originalScore">Original Score</label>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="originalSong"
+            checked
+          />
+          <label for="originalSong">Original Song</label>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="soundEditing"
+            checked
+          />
+          <label for="soundEditing">Sound Editing</label>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="soundMixing"
+            checked
+          />
+          <label for="soundMixing">Sound Mixing</label>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="bestPicture"
+            checked
+          />
+          <label for="bestPicture">Best Picture</label>
+          <input
+            type="checkbox"
+            class="awardCategory"
+            id="adaptedScreenplay"
+            checked
+          />
+          <label for="adaptedScreenplay">Adapted Screenplay</label>
+        </div>
+        <div class="insight-panel">
+          <h2>The Critical Perspective</h2>
+          <p>Critical acclaim for Pixar has fluctuated over time, with early films like Toy Story and The Incredibles setting a high bar. Recent years show a more mixed reception, with some films receiving widespread acclaim (Soul, Inside Out) while others face more tepid responses. This suggests quality variation rather than consistent decline.</p>
+        </div>
 
+        <!-- Audience Reception Section -->
+        <div class="hover-bar" id="revealAudience">Audience Reception</div>
+        <div id="visualization-wrapper-audience" class="viz-wrapper">
+          <div id="audience-chart"></div>
+        </div>
+        <div class="insight-panel">
+          <h2>The Audience Connection</h2>
+          <p>Audience reception reveals a fascinating pattern: while general audiences remain largely positive about Pixar films, there's a growing disconnect between critical and public opinion. This suggests that Pixar may be prioritizing broad appeal over the nuanced storytelling that once captivated both critics and audiences alike.</p>
+        </div>
 
+        <!-- Sequels Performance Decline - Return on Magic Section -->
+        <div class="hover-bar" id="revealReturnOnMagic">The Sequel Curse?</div>
+        <div id="visualization-wrapper-returnOnMagic" class="viz-wrapper">
+        <div id="return-on-magic-container">
+          <div id="return-on-magic-controls"></div>
+          <div id="return-on-magic-chart"></div>
+          <div id="insight-text"></div>
+        </div>
+        </div>
+        <div class="insight-panel">
+          <h2>The Sequel Strategy</h2>
+          <p>The data exposes a clear trend: Pixar's sequels consistently outperform their predecessors at the box office, yet often receive lower critical ratings. This commercial success may be driving the studio's increasing reliance on established franchises, potentially at the expense of the creative innovation that built their reputation.</p>
+        </div>
 
+        <!-- You Decide Section -->
+        <div class="hover-bar" id="revealYouDecide">You Decide: Has Pixar Lost Its Magic?</div>
+        <div id="visualization-wrapper-youdecide" class="viz-wrapper">
+          <div style="display: flex">
+            <div style="display: flex">
+              <div id="you-decide-viz" style="flex: 3; min-width: 700px"></div>
+              <div
+                id="you-decide-controls"
+                style="
+                  flex: 0 0 300px; /* always 300 px wide */
+                  margin-left: 20px;
+                  max-height: 580px; /* same as chart height minus some padding */
+                  overflow-y: auto; /* vertical scroll if content is taller */
+                "
+              >
+                <div id="pie-chart" style="margin-top: 20px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="insight-panel">
+          <h2>The Transformation Revealed</h2>
+          <p>The data reveals a stark transformation: after 2010, sequels multiplied while originals became rare. This shift raises the fundamental question of our investigation—has this change affected the magic itself? Your weighted analysis provides a personalized perspective on whether Pixar's evolution represents decline or simply transformation.</p>
+        </div>
+      </div>
+      <div style="margin-bottom: 15px;">
+                  <label>Sort By:</label>
+                  <select id="sort-method">
+                    <option value="Chronological">Chronological</option>
+                    <option value="ByMagicScore">By Magic Score</option>
+                  </select>
+      </div>
 
+      <h3>You Decide: What Makes a Great Pixar Movie?</h3>
+      <p>
+        This interactive chart invites you to define what you believe makes a Pixar movie truly magical.
+        Using a set of customizable sliders, you can assign importance to different factors like 
+        box office success, critical reception, originality, and awards recognition.
+      </p>
       <p>
         Each film is assigned a <strong>Magic Score</strong> based on your personal weighting of these metrics:
         <ul style="margin-top: 6px; margin-bottom: 6px; padding-left: 20px;">
@@ -669,13 +661,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <script type="module" src="plots/index_script.js"></script>
     <script type="module" src="plots/originality.js"></script>
-    <script src="scripts/section-animations.js"></script>
     <script type="module" src="plots/you_decide.js"></script>
     <script type="module" src="plots/critical_reception.js"></script>
     <script type="module" src="plots/pixar_dreamworks.js"></script>
     <script type="module" src="plots/timeline.js"></script>
     <script type="module" src="plots/audience_reception.js"></script>
     <script type="module" src="plots/sequel_performance.js"></script>
+
     <div
       id="tooltip"
       style="
@@ -693,44 +685,6 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
-        // Initialize the audience chart section directly
-        const audienceWrapper = document.getElementById("visualization-wrapper-audience");
-        if (audienceWrapper) {
-          audienceWrapper.classList.add("revealed");
-        }
-        
-        // Initialize the chart-container (Pixar vs. DreamWorks comparison)
-        const chartContainer = document.getElementById("chart-container");
-        if (chartContainer) {
-          chartContainer.classList.add("revealed");
-          chartContainer.style.display = "block";
-          chartContainer.style.opacity = "1";
-        }
-        
-        // Initialize the sequel performance visualization
-        const returnOnMagicWrapper = document.getElementById("visualization-wrapper-returnOnMagic");
-        if (returnOnMagicWrapper) {
-          returnOnMagicWrapper.classList.add("revealed");
-          returnOnMagicWrapper.style.display = "block";
-          returnOnMagicWrapper.style.opacity = "1";
-        }
-        
-        // Initialize the critical reception visualization
-        const criticalWrapper = document.getElementById("visualization-wrapper-critical");
-        if (criticalWrapper) {
-          criticalWrapper.classList.add("revealed");
-          criticalWrapper.style.display = "block";
-          criticalWrapper.style.opacity = "1";
-        }
-        
-        // Initialize the You Decide visualization
-        const youDecideWrapper = document.getElementById("visualization-wrapper-youdecide");
-        if (youDecideWrapper) {
-          youDecideWrapper.classList.add("revealed");
-          youDecideWrapper.style.display = "block";
-          youDecideWrapper.style.opacity = "1";
-        }
-        
         const toggleReveal = (barId, wrapperId) => {
           const bar = document.getElementById(barId);
           const wrapper = document.getElementById(wrapperId);
@@ -746,6 +700,10 @@
 
         toggleReveal("revealBoxOffice", "visualization-wrapper-boxoffice");
         toggleReveal("revealOriginality", "visualization-wrapper-originality");
+        toggleReveal("revealYouDecide", "visualization-wrapper-youdecide");
+        toggleReveal("revealCritical", "visualization-wrapper-critical");
+        toggleReveal("revealReturnOnMagic", "visualization-wrapper-returnOnMagic");
+        toggleReveal("revealAudience", "visualization-wrapper-audience");
       });
       document
         .getElementById("window-size")
