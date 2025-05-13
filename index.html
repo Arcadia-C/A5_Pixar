@@ -5,10 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <title>Pixar Visualization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
     <script src="plots/d3.v7.min.js"></script>
     <style>
       .reveal-container {
         margin-top: 40px;
+      }
+
+      .landing-section {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .scroll-indicator {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        color: white;
+        opacity: 0.8;
+        font-size: 1.5rem;
+        animation: bounce 2s infinite;
+        cursor: pointer;
+        z-index: 100;
+      }
+
+      .scroll-indicator::after {
+        content: '↓';
+        display: block;
+        animation: glow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes glow {
+        from { 
+            text-shadow: 0 0 5px rgba(255,255,255,0.5); 
+        }
+        to { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 30px rgba(210, 105, 30, 0.5); 
+        }
+      }
+
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { 
+            transform: translateX(-50%) translateY(0); 
+        }
+        40% { 
+            transform: translateX(-50%) translateY(-10px); 
+        }
+        60% { 
+            transform: translateX(-50%) translateY(-5px); 
+        }
       }
 
       .hover-bar {
@@ -318,12 +366,13 @@
 
   <body>
     <div class="content">
-      <h1>Has Pixar Lost Its Magic?</h1>
-      <h3>
-        Exploring the Evolution of Pixar Films and the Changing Landscape of
-        Animated Storytelling.
-      </h3>
-      <div class="container">
+      <div class="landing-section">
+        <h1>Has Pixar Lost Its Magic?</h1>
+        <h3>
+          Exploring the Evolution of Pixar Films and the Changing Landscape of
+          Animated Storytelling.
+        </h3>
+      <div class="container" style="margin-top: 2vh;">
         <div class="year-display">Year: <span id="current-year">1994</span></div>
         
         <div class="controls">
@@ -337,6 +386,8 @@
         </div>
         
         <div class="tooltip"></div>
+      </div>
+      <div class="scroll-indicator">&nbsp;</div>
       </div>
       <p>
         Not so long ago (in 1994 to be exact), on a hot day in California, there
