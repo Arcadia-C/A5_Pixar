@@ -106,7 +106,6 @@
       /* Base slider styling */
       input[type="range"] {
         -webkit-appearance: none;
-        appearance: none;
         width: 40%;
         height: 8px;
         border-radius: 5px;
@@ -403,16 +402,6 @@
         <h2>The Transformation Revealed</h2>
         <p>The data reveals a stark transformation: after 2010, sequels multiplied while originals became rare. This shift raises the fundamental question of our investigation—has this change affected the magic itself?</p>
       </div>
-
-      <!-- Originality Section -->
-      <div class="hover-bar" id="revealOriginality">Originality</div>
-      <div id="visualization-wrapper-originality" class="viz-wrapper">
-        <div id="originality"></div>
-      </div>
-      <div class="insight-panel">
-        <h2>The Originality Decline</h2>
-        <p>After 2010, a clear shift emerged: sequels multiplied while original stories became increasingly rare. This transformation raises fundamental questions about the balance between creative risk-taking and commercial certainty. Has Pixar's acquisition by Disney accelerated this trend toward franchise expansion?</p>
-      </div>
       
       <section class="section">
         <div class="container">
@@ -535,17 +524,6 @@
           </div>
         </div>
       </section>
-
-      <!-- Box Office Section -->
-      <!-- <div class="reveal-container">
-        <div class="hover-bar" id="revealBoxOffice">Box Office</div>
-        <div id="visualization-wrapper-boxoffice" class="viz-wrapper">
-          <div id="visualization"></div>
-        </div>
-        <div class="insight-panel">
-          <h2>The Financial Evolution</h2>
-          <p>The data reveals a stark financial pattern: Pixar's box office performance peaked with sequels like Incredibles 2 and Finding Dory, while original films have shown more modest returns. This commercial pressure may be influencing creative decisions, pushing the studio toward safer, franchise-based projects.</p>
-      </div> -->
       
       <section class="section">
         <div class="container">
@@ -607,7 +585,7 @@
             <p class="section-text">Maybe Pixar hasn't lost its magic—the magic itself has evolved. But 'magic' is measured by different metrics. Use the sliders below to define your own version and see how it reshapes the entire narrative.</p>
           </div>
           
-          <div class="viz-container you-decide-container">
+          <div class="viz-container">
             <div id="visualization-wrapper-youdecide" class="viz-wrapper">
               <div style="display: flex">
                 <div style="display: flex">
@@ -617,7 +595,7 @@
                     style="
                       flex: 0 0 300px; /* always 300 px wide */
                       margin-left: 20px;
-                      max-height: 520px; /* reduced height to fit insight panel */
+                      max-height: 580px; /* same as chart height minus some padding */
                       overflow-y: auto; /* vertical scroll if content is taller */
                     "
                   >
@@ -626,7 +604,7 @@
                 </div>
               </div>
               
-              <div style="margin: 10px 0;">
+              <div style="margin: 15px 0;">
                 <label>Sort By:</label>
                 <select id="sort-method">
                   <option value="Chronological">Chronological</option>
@@ -635,20 +613,56 @@
               </div>
             </div>
           </div>
-
+          
           <div class="insight-panel">
             <h2>Magic in the Eye of the Beholder</h2>
-            <p>Each film's <strong>Magic Score</strong> reflects your personal values: box office success, critical acclaim, originality, or awards. As you adjust the sliders, you'll see how different priorities reshape which Pixar films rise to the top—proving that magic truly is in the eye of the beholder.</p>
-          </div>
-          
-          <!-- <div class="insight-panel">
-            <h2>Magic in the Eye of the Beholder</h2>
             <p>Magic lives in the eye of the beholder. Whether you prioritize innovation, emotion, or impact, Pixar films excel in different ways. The studio hasn't lost its magic—it's distributed it differently across a broader range of stories and experiences.</p>
-          </div> -->
+          </div>
         </div>
       </section>
-
       
+      <div class="reveal-container">
+        <!-- Box Office Section -->
+        <div class="hover-bar" id="revealBoxOffice">Box Office</div>
+        <div id="visualization-wrapper-boxoffice" class="viz-wrapper">
+          <div id="visualization"></div>
+        </div>
+        <div class="insight-panel">
+          <h2>The Financial Evolution</h2>
+          <p>The data reveals a stark financial pattern: Pixar's box office performance peaked with sequels like Incredibles 2 and Finding Dory, while original films have shown more modest returns. This commercial pressure may be influencing creative decisions, pushing the studio toward safer, franchise-based projects.</p>
+        </div>
+
+        <!-- Originality Section -->
+        <div class="hover-bar" id="revealOriginality">Originality</div>
+        <div id="visualization-wrapper-originality" class="viz-wrapper">
+          <div id="originality"></div>
+        </div>
+        <div class="insight-panel">
+          <h2>The Originality Decline</h2>
+          <p>After 2010, a clear shift emerged: sequels multiplied while original stories became increasingly rare. This transformation raises fundamental questions about the balance between creative risk-taking and commercial certainty. Has Pixar's acquisition by Disney accelerated this trend toward franchise expansion?</p>
+        </div>
+
+
+
+
+
+      <p>
+        Each film is assigned a <strong>Magic Score</strong> based on your personal weighting of these metrics:
+        <ul style="margin-top: 6px; margin-bottom: 6px; padding-left: 20px;">
+          <li><strong>Box Office Performance</strong> — total worldwide gross sales</li>
+          <li><strong>Opening Weekend</strong> — early momentum and excitement</li>
+          <li><strong>Rotten Tomatoes, IMDb, Metacritic Ratings</strong> — ratings across three major players</li>
+          <li><strong>Originality</strong> — whether the film is an original story or a sequel</li>
+          <li><strong>Awards Recognition</strong> — number and prestige of awards</li>
+        </ul>
+      </p>
+      <p>
+        The <strong>Magic Score</strong> is dynamically recalculated as you adjust the sliders, letting you explore 
+        how different priorities (like critical acclaim vs originality) affect which movies rise to the top.
+      </p>
+      <p style="font-style: italic;">
+        Expand a bar to view detailed information about the movie, including its trailer, critical scores, and plot summary.
+      </p>
       <div style="height: 500px"></div>
     </div>
 
