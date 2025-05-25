@@ -596,6 +596,13 @@
           </div>
           
           <div class="viz-container">
+            <div style="margin: 15px 0;">
+              <label>Sort By:</label>
+              <select id="sort-method">
+                <option value="Chronological">Chronological</option>
+                <option value="ByMagicScore">Magic Score</option>
+              </select>
+            </div>
             <div id="visualization-wrapper-youdecide" class="viz-wrapper">
               <div style="display: flex">
                 <div style="display: flex">
@@ -613,14 +620,24 @@
                   </div>
                 </div>
               </div>
-              
-              <div style="margin: 15px 0;">
-                <label>Sort By:</label>
-                <select id="sort-method">
-                  <option value="Chronological">Chronological</option>
-                  <option value="ByMagicScore">By Magic Score</option>
-                </select>
-              </div>
+
+              <p>
+                Each film is assigned a <strong>Magic Score</strong> based on your personal weighting of these metrics:
+                <ul style="margin-top: 6px; margin-bottom: 6px; padding-left: 20px;">
+                  <li><strong>Box Office Performance</strong> — total worldwide gross sales</li>
+                  <li><strong>Opening Weekend</strong> — early momentum and excitement</li>
+                  <li><strong>Rotten Tomatoes, IMDb, Metacritic Ratings</strong> — ratings across three major players</li>
+                  <li><strong>Originality</strong> — whether the film is an original story or a sequel</li>
+                  <li><strong>Awards Recognition</strong> — number and prestige of awards</li>
+                </ul>
+              </p>
+              <p>
+                The <strong>Magic Score</strong> is dynamically recalculated as you adjust the sliders, letting you explore 
+                how different priorities (like critical acclaim vs originality) affect which movies rise to the top.
+              </p>
+              <p style="font-style: italic;">
+                Expand a bar to view detailed information about the movie, including its trailer, critical scores, and plot summary.
+              </p>
             </div>
           </div>
           
@@ -641,28 +658,6 @@
           <h2>The Financial Evolution</h2>
           <p>The data reveals a stark financial pattern: Pixar's box office performance peaked with sequels like Incredibles 2 and Finding Dory, while original films have shown more modest returns. This commercial pressure may be influencing creative decisions, pushing the studio toward safer, franchise-based projects.</p>
         </div>
-
-
-
-
-
-      <p>
-        Each film is assigned a <strong>Magic Score</strong> based on your personal weighting of these metrics:
-        <ul style="margin-top: 6px; margin-bottom: 6px; padding-left: 20px;">
-          <li><strong>Box Office Performance</strong> — total worldwide gross sales</li>
-          <li><strong>Opening Weekend</strong> — early momentum and excitement</li>
-          <li><strong>Rotten Tomatoes, IMDb, Metacritic Ratings</strong> — ratings across three major players</li>
-          <li><strong>Originality</strong> — whether the film is an original story or a sequel</li>
-          <li><strong>Awards Recognition</strong> — number and prestige of awards</li>
-        </ul>
-      </p>
-      <p>
-        The <strong>Magic Score</strong> is dynamically recalculated as you adjust the sliders, letting you explore 
-        how different priorities (like critical acclaim vs originality) affect which movies rise to the top.
-      </p>
-      <p style="font-style: italic;">
-        Expand a bar to view detailed information about the movie, including its trailer, critical scores, and plot summary.
-      </p>
       <div style="height: 500px"></div>
     </div>
 
